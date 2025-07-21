@@ -2,65 +2,133 @@
 
 #Exercise 1
 
-print("Hello world\nHello world\nHello world\nHello world")
+my_fav_numbers = {1, 2, 3, 4, 7, 8, 12, 18, 16, 23, 30, 32, 42, 69, 420}
+my_fav_numbers.add(9)
+my_fav_numbers.add(13)
+my_fav_numbers.pop()
+print(my_fav_numbers)
+friend_fav_numbers = (8, 7, 36, 42, 64, 128)
+our_fav_numbers = my_fav_numbers.union(friend_fav_numbers)
+print(f'our fav numbers: {our_fav_numbers}')
 
 #Exercise 2
 
-calculation = (99^3)*8
-print(f'the result of (99^3)*8 is {calculation}')
+my_tuple = (10, 20, 30)
+my_tuple = my_tuple + (40, 50)
+print(my_tuple)
 
 #Exercise 3
 
-# 5 < 3 # False
-# 3 == 3  # True
-# 3 == "3" # False
-# "3" > 3  # Error (cannot compare string and int)
-# "Hello" == "hello" # False
+basket = ["Banana", "Apples", "Oranges", "Blueberries"]
+basket.remove("Banana")
+basket.pop()
+basket.append("Kiwi")
+basket.insert(0, "Apples")
+apples_count = basket.count("Apples")
+print(f'apples count: {apples_count}')
+basket.clear()
+print("Final basket:", basket)
 
 #Exercise 4
 
-computer_brand = 'Kossmagic'
-print(f'I have a {computer_brand} computer.')
+#Float = 3.14, 12.4 (decimals numbers)
+#Integer = 1, 2, 3, 4 (full numbers)
+
+float_numbers = []
+for i in range(3, 11):
+    float_numbers.append(i * 0.5)
+print(float_numbers)
 
 #Exercise 5
 
-name = 'Ariel'
-age = 26
-shoe_size = 43
-info = f"My name is {name}, I am {age} years old, and I wear size {shoe_size} shoes."
-print(info)
+for i in range(1, 21):
+    print(i)
+for i in range(1, 21):
+    if i % 2 == 0:
+        print(i)
 
 #Exercise 6
 
-a = 18
-b = 42
+name =""
 
-if a > b:
-    print('Hello World')
-else:
-    print('Not Hello World')
+while name != "Ariel":
+    name = input('Enter your name: ')
 
 #Exercise 7
 
-number = int(input('Enter a number: '))
-if number % 2 == 0:
-    print("Even")
+favorites_fruits = input('Enter one or more of your favorites fruits : ')
+user_fruits = input('Enter any fruit : ')
+if user_fruits.lower() in favorites_fruits.lower():
+    print("You chose one of your favorite fruits! Enjoy!")
 else:
-    print("Odd")
+    print("You chose a new fruit. I hope you enjoy it!")
 
 #Exercise 8
 
-user_name = input('Enter your name: ')
-if user_name == 'Ariel':
-    print("That's my bro right here, we got the same name !")
-else:
-    print(f"{user_name} , This is the name i gave to my dog")
+toppings = []
+while True:
+    topping = input("Enter the toppings for you pizza (or tap 'quit' when done) : ")
+    if topping == "quit":
+        break
+    else:
+        toppings.append(topping)
+        print(f"Adding {topping} to your pizza.")
+
+total_cost = 10 + len(toppings) * 2.5
+print(f"Your pizza with those toppings : {toppings} , will cost {total_cost} $.")
 
 #Exercise 9
 
-height = int(input('Enter your height in centimeters: '))
-if height > 145:
-    print('Congrats ! You can ride that roller coaster')
-else:
-    print(f'Sorry ! You are too small, grow {146-height} centimeters more, and come back to enjoy !')
+total_cost = 0
+while True:
+    age = int(input("Enter the age of a person: "))
+
+    if age < 3:
+        cost = 0
+    elif 3 <= age <= 12:
+        cost = 10
+    else:
+        cost = 15
+
+    total_cost += cost
+    more = input("Do you want to enter another person's age? (yes/no): ")
+    if more.lower() != "yes":
+        break
+
+print(f"Total ticket cost: ${total_cost}")
+
+#Bonus
+
+allowed = []
+not_allowed = []
+
+while True:
+    name = input("Enter the name of the person: ")
+    age = int(input("Enter the age of the person: "))
+
+    if age >= 18:
+        allowed.append(name)
+    else:
+        not_allowed.append(name)
+
+    more = input("Do you want to add another person? (yes/no): ")
+    if more.lower() != "yes":
+        break
+
+print(f"People who can watch the movie: {allowed}")
+print(f"People who cannot watch the movie: {not_allowed}")
+
+#Exercise 10
+
+sandwich_orders = ["Tuna", "Pastrami", "Avocado", "Pastrami", "Egg", "Chicken", "Pastrami"]
+finished_sandwiches = []
+
+while "Pastrami" in sandwich_orders:
+    sandwich_orders.remove("Pastrami")
+
+for sandwich in sandwich_orders:
+    finished_sandwiches.append(sandwich)
+    print(f"I made your {sandwich} sandwich.")
+
+print(f"All finished sandwiches: {finished_sandwiches}")
 
