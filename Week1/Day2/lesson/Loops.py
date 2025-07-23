@@ -1,16 +1,24 @@
 #Loops.py
 
-#Exercise 1
+fruits = ["apple", "banana", "kiwi", 'pear']
 
-user_number = int(input("Enter a number: "))
+for fruit in fruits :
+    print(fruit)
+
+for char in 'Harry':
+    print(char)
+
+languages = ('PT', 'ES', 'IT')
+for lang in languages:
+    print(lang)
 
 for i in range(1, 11):
-    print(f"{user_number} x {i} = {user_number * i}")
+    print('Hello', i)
 
-#Exercise 2
+for i, fruit in enumerate(fruits):
+    if fruit == 'apple':
+        fruits[i] = 'Mac is better'
 
-number = 1
+    print(f'Fruit {i} is {fruit}')
 
-while number <= 10:
-    print(number)
-    number += 1
+print(fruits)
