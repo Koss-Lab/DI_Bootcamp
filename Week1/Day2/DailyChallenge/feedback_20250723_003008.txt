@@ -1,0 +1,12 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week1/Day2/DailyChallenge/Daily_Challenge.py
+suggestions for improvement:
+- In Exercise 1, using a while loop would also be a valid and potentially more readable solution for some users. Consider adding that as an alternative implementation in comments.
+- In Exercise 2, the use of a while loop would be less efficient than the for loop used. However,  it could be more readable for some individuals.  It would be beneficial to offer a version using a while loop as well.
+- Add more comprehensive error handling. For example, check if the inputs in Exercise 1 are indeed integers.  If not, provide an appropriate error message and handle the situation gracefully.
+- Add docstrings to both functions to explain their purpose, parameters, and return values. This significantly enhances readability.
+Brief justification:
+- correctness: Both exercises directly address the challenges outlined in the chapter content. Exercise 1 correctly generates a list of multiples using a for loop, input(), lists, and basic arithmetic as specified.  Exercise 2 effectively removes consecutive duplicate letters from a string using a for loop, string manipulation, conditional statements, and input() as instructed.  Both fulfill the requirements of the challenges exactly.
+- readability: The code is generally readable. Variable names are descriptive (e.g., 'number', 'length', 'multiples'). The logic is straightforward and easy to follow, however adding comments and docstrings to improve clarity would be beneficial. While the current implementation is efficient, a while loop could also be presented as an alternative way to achieve the same result in Exercise 1.  Also, the code lacks error handling for non-integer inputs.
+- performance: The performance of both solutions is good for the given tasks. The time complexity of both is linear, O(n), which is efficient for the tasks at hand. There are no unnecessary computations or inefficient algorithms used. However, a more efficient approach for Exercise 2 might be possible in some cases (though this is not a significant performance issue).
+- security: The code is secure because it only uses built-in Python functions and doesn't interact with external resources or handle sensitive data.  There are no security vulnerabilities present.
+
