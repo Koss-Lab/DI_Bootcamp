@@ -1,0 +1,10 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week1/Day1/DailyChallenge/Daily_Challenge_Build_Up_A_String.py
+suggestions for improvement:
+- The comments could be more descriptive.  Instead of `#Exercise 1`, use something like `# Get user input and validate length`.
+- Consider adding input validation to handle non-string inputs. The current code might crash if a user enters a number.
+Brief justification:
+- correctness: The code directly and accurately addresses all aspects of the daily challenge.  It correctly handles string length validation (steps 1 and 2), prints the first and last characters (step 3), builds the string character by character using a loop (step 4), and includes the optional string shuffling (step 5). Each part aligns perfectly with the instructions given in the 'Chapter Content/Questions' section which covers Python basics, conditionals, and loops.
+- readability: The code is well-structured and easy to follow.  The use of comments helps, although more descriptive comments would improve readability.  The variable names are clear and concise. The only minor issue is the lack of robust error handling for invalid user input.
+- performance: The code's performance is excellent for this task. The algorithms used are efficient, and there are no unnecessary computations. The time complexity is directly proportional to the string length, which is acceptable for strings of length 10.
+- security: There are no apparent security vulnerabilities in the provided code. It only takes user input and performs string manipulations; there's no interaction with external systems or sensitive data.
+
