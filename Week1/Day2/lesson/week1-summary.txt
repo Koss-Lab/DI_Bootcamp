@@ -1,0 +1,23 @@
+WEEK1
+
+DAY1 - BASIC VALUE TYPES
+
+-STRINGS
+text, sequence of characters, defined with quotations marks: '' OR ""
+
+-NUMBERS
+-integers
+-floats
+
+-BOOLEANS: True or False - 1 or 0
+
+CONDITIONALS
+if statements: 
+syntax: 
+if <condition> :
+   indented block of code
+elif <condition>:
+   indented block of code
+else:
+   indented block of code    
+
