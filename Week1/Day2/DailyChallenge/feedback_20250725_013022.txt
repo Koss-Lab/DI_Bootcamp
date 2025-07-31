@@ -1,0 +1,11 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week1/Day2/DailyChallenge/Daily_Challenge.py
+suggestions for improvement:
+- In Exercise 2, using a while loop might offer a slightly more elegant solution for iterating through the string, although the provided for loop is perfectly functional and clear.
+- Add more comprehensive docstrings to both functions to improve readability and explain their purpose, parameters, and return values.  For example:  `def generate_multiples(number, length): ...` and `def remove_consecutive_duplicates(word): ...`
+- Consider adding error handling (e.g., `try-except` blocks) to handle potential non-integer inputs for the first challenge.  This would prevent crashes if the user enters invalid input.
+Brief justification:
+- correctness: Both challenges are correctly solved.  Challenge 1 accurately generates a list of multiples as specified, using a for loop, lists, the input function, and basic arithmetic – all topics explicitly mentioned in the chapter content. Challenge 2 correctly removes consecutive duplicate letters from a string using a for loop, string manipulation, and conditional statements (if), exactly as described in the chapter.
+- readability: The code is well-structured and easy to follow. Variable names are descriptive. The logic is straightforward. Minor improvements in loop choice and docstrings would enhance readability further.
+- performance: The code's performance is excellent for inputs of the size expected in this context.  The time complexity of both solutions is linear, O(n), which is optimal for these problems.
+- security: The code does not contain any security vulnerabilities. It relies solely on user input and performs only basic operations, posing no security risks.
+
