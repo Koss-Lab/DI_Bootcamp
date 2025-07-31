@@ -1,5 +1,7 @@
 #MiniProject3.py
 
+print('Welcome to TIC TAC TOE !')
+
 def display_board(board):
     print("\nTIC TAC TOE")
     print("*************")
