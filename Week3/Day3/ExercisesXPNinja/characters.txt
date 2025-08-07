@@ -1,0 +1,20 @@
+Name: Ariel
+Age: 27
+Stats:
+- Strength: 14
+- Dexterity: 8
+- Constitution: 14
+- Intelligence: 12
+- Wisdom: 13
+- Charisma: 9
+
+Name: Antoine
+Age: 27
+Stats:
+- Strength: 18
+- Dexterity: 13
+- Constitution: 13
+- Intelligence: 12
+- Wisdom: 10
+- Charisma: 11
+

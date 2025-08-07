@@ -2,6 +2,7 @@
 
 from func import add_and_print
 from datetime import date
+from datetime import datetime
 from faker import Faker
 import string
 import random
@@ -87,8 +88,6 @@ def show_today_date():
 show_today_date()
 
 #Exercise 5
-
-from datetime import datetime
 
 def time_until_new_year():
     now = datetime.now()
