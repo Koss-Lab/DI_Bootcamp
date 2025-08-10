@@ -1,0 +1,16 @@
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week4/Day1/DailyChallenge/OOPQuizz.py
+suggestions for improvement:
+- The code for the OOP quiz is well-structured as a comment block, but consider adding it as a separate Python file or module to demonstrate better OOP principles. 
+- In the `Deck` class's `deal` method, consider adding more robust error handling.  Instead of simply returning `None`, raise a custom exception (e.g., `EmptyDeckError`) to indicate that there are no more cards to deal, allowing the calling code to handle this situation more gracefully.
+- The `build` method in the `Deck` class is called within the `__init__` method.  While functional, it might be slightly more efficient to create the deck directly within `__init__` to avoid a potentially unnecessary call to `build()`.
+Correctness: 100%
+-----
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week4/Day1/DailyChallenge/page_timer.py
+suggestions for improvement:
+- The provided code is a website load time benchmarking tool.  It does not address any of the exercises or topics in the Chapter Content/Questions (OOP, data structures, random number generation).
+- The code is well-structured and uses meaningful variable names, improving readability.
+- Error handling is implemented, improving robustness.
+- The use of `requests.Session()` is efficient as it reuses connections.
+- The `verify_ssl` parameter allows for disabling SSL verification, which is a security risk and should be avoided unless absolutely necessary.  Clear warnings and documentation should emphasize the risk.
+Correctness: 0%
+-----
