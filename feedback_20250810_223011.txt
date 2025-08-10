@@ -1,0 +1,17 @@
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week4/Day1/MiniProject/Anagram_Checker/anagram_checker.py
+suggestions for improvement:
+- The `anagrams.py` file is missing, which is crucial for the user interface and interaction part of the assignment.  Without it, the `AnagramChecker` class cannot be fully evaluated in a functional context.
+- Error handling (e.g., for file not found in `AnagramChecker.__init__`) should be added for robustness.
+- The performance could be improved by using more efficient data structures or algorithms for finding anagrams, especially for larger word lists.  Consider using a dictionary where keys are sorted letters and values are lists of words.
+- Add more comprehensive docstrings to explain the purpose and usage of methods more clearly and comprehensively.
+Correctness: 95%
+-----
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week4/Day1/MiniProject/Anagram_Checker/anagrams.py
+suggestions for improvement:
+- The `anagram_checker.py` file is missing, making it impossible to fully assess the correctness.  The provided `anagrams.py` seems well-structured for its UI part.
+- Error handling could be improved. Instead of just printing 'Error', more informative messages could be displayed.
+- The program should handle cases where the word file ('words.txt' or equivalent) is not found gracefully (e.g., using a `try-except` block).
+- Consider adding a progress indicator if the anagram search takes a long time for very large word lists.
+- The performance of `get_anagrams` could be significantly improved by using more efficient algorithms (currently the approach isn't specified and is a major factor influencing the performance score).
+Correctness: 95%
+-----
