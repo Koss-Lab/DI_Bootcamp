@@ -1,0 +1,11 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week3/Day2/DailyChallenge/DailyChallenge.py
+suggestions for improvement:
+- The code uses `matplotlib` for drawing, which is not the requested `turtle` module.  The problem states that using `turtle` is a bonus, not a requirement, but using `matplotlib` as a replacement means the solution doesn't fully address the bonus task.
+- The error handling in `__add__` could be improved to provide a more informative error message. For example, `raise TypeError("Cannot add non-Circle object to a Circle.")`.
+- Consider adding input validation to ensure that radius and diameter are non-negative numbers in the `__init__` method.
+Brief justification:
+- correctness: The code implements a `Circle` class that correctly uses dunder methods for addition (`__add__`), equality (`__eq__`), comparison (`__lt__`, `__le__`, `__gt__`, `__ge__`), and string representation (`__str__`).  It accurately calculates the area, diameter, and allows initialization with either radius or diameter. The sorting functionality is correctly implemented. The bonus task using `matplotlib` is implemented, but is not the specifically requested `turtle` module.
+- readability: The code is well-structured and easy to follow.  The use of dunder methods enhances readability by making the code's intent clearer. However, more informative error messages would improve readability.
+- performance: The code's performance is good. The calculations are straightforward and efficient, and the use of properties avoids redundant calculations.
+- security: The code is secure. It handles potential errors like missing inputs and invalid types appropriately, and it doesn't have any obvious vulnerabilities.
+

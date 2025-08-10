@@ -1,0 +1,14 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week3/Day3/DailyChallenge/text_analysis.py
+suggestions for improvement:
+- The `word_frequency` method could be improved by handling cases with multiple spaces between words more robustly.  Consider using `re.findall(r'\b\w+\b', self.text.lower())` for more accurate word splitting.
+- The `most_common_word` method's performance could be improved with a Counter from the `collections` module for larger texts.  It is more efficient than manual dictionary updates.
+- In `remove_stop_words`, consider using a more comprehensive stop word list. Pre-built lists are available in the NLTK library which could enhance functionality.
+- Add error handling to the `from_file` method for handling cases where the file is empty or has an unexpected format (e.g. not UTF-8).
+- Add docstrings to all methods and classes for better readability and maintainability.
+- Consider adding more sophisticated text cleaning options to `TextModification`, like stemming or lemmatization, for a more complete text analysis pipeline.
+Brief justification:
+- correctness: The code implements all the required classes and methods as specified in the instructions. The `Text` class accurately counts word frequencies, finds the most common word, and identifies unique words.  The `TextModification` class effectively removes punctuation, stop words, and special characters. The `from_file` class method correctly reads text from a file.  The minor deduction is due to potential edge cases not fully addressed (e.g., multiple spaces).
+- readability: The code is generally well-structured and easy to follow. However, adding docstrings would significantly improve readability and make the code's purpose clearer. Variable names are mostly descriptive.
+- performance: The code's performance is acceptable for small texts. However, the `most_common_word` method's efficiency could be improved by using the `collections.Counter` object for larger datasets.  The word splitting in `word_frequency` could be improved for accuracy. 
+- security: The code does not have any apparent security vulnerabilities. The `from_file` method handles file opening and closing correctly and includes error handling for `FileNotFoundError`. The use of UTF-8 encoding helps support a wider range of characters.
+

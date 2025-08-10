@@ -1,0 +1,10 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week2/Day2/DailyChallenge/DailyChallenge2.py
+suggestions for improvement:
+- In `longest_word`, consider using `max` with a `key` function for a more concise and potentially faster solution.  The current loop is clear but less efficient for very large sentences.
+- Add docstrings to both functions to improve readability and explain their purpose and parameters.
+Brief justification:
+- correctness: Both functions correctly address the challenges presented in the Chapter Content/Questions.  The first function takes comma-separated words, sorts them alphabetically, and outputs them in a comma-separated string.  The second function accurately identifies the longest word in a given sentence, as specified, including punctuation. This directly aligns with the learning objectives (string manipulation, sorting, functions).
+- readability: The code is generally readable and easy to follow.  However, adding docstrings would enhance clarity. The variable names are appropriately descriptive. The structure of both functions is logical and straightforward.
+- performance: The sorting algorithm used in `sort_words` is efficient for moderately sized inputs.  The `longest_word` function's linear scan has O(n) time complexity. For extremely large sentences, a more optimized approach (like using the `max` function with a key) could improve performance. The current performance is acceptable for typical inputs.
+- security: There are no apparent security vulnerabilities in the provided code. The code only takes user input, processes it, and generates output; it doesn't interact with external resources or handle sensitive data.
+
