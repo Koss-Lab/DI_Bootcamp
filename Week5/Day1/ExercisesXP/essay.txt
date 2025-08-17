@@ -1,0 +1,19 @@
+Exercise 1: Introduction to Data Analysis (Essay)
+
+What is data analysis?
+Data analysis is the process of inspecting, cleaning,
+transforming, and interpreting data in order to find
+useful information, draw conclusions, and support decisions.
+
+Why is data analysis important?
+In modern contexts, data analysis is essential because
+organizations and individuals produce huge amounts of data
+every day. Analyzing this data helps to improve efficiency,
+discover trends, and make evidence-based decisions.
+
+Three applications of data analysis today:
+1. Healthcare: analyzing patient data to predict diseases
+   and improve treatment effectiveness.
+2. Finance: detecting fraud and managing investment risks.
+3. Marketing: understanding customer behavior and
+   personalizing advertising campaigns.
