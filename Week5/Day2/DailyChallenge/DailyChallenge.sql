@@ -1,6 +1,8 @@
--- Daily Challenge - SQL Puzzle
+-- Daily Challenge - SQL Puzzle (Corrected Final Version)
 
--- 1. Create the tables
+-- STEP 1 : Create and Populate Tables
+
+DROP TABLE IF EXISTS FirstTab;
 CREATE TABLE FirstTab (
     id INTEGER,
     name VARCHAR(10)
@@ -22,6 +24,7 @@ SELECT * FROM FirstTab;
 -- NULL | Avtaar
 
 
+DROP TABLE IF EXISTS SecondTab;
 CREATE TABLE SecondTab (
     id INTEGER
 );
@@ -39,74 +42,54 @@ SELECT * FROM SecondTab;
 
 
 
+-- STEP 2 : Queries and Explanations
+
 -- Q1
--- Query:
--- SELECT COUNT(*)
--- FROM FirstTab AS ft
--- WHERE ft.id NOT IN ( SELECT id FROM SecondTab WHERE id IS NULL );
-
--- Explanation:
--- Subquery = empty set, because "WHERE id IS NULL" gives only NULL.
--- NULL is not compared as a value → result is ignored.
--- So the subquery returns nothing.
--- Therefore "NOT IN (empty set)" keeps all rows.
--- FirstTab has 4 rows.
--- Expected answer = 4
-
+-- Query: Count rows in FirstTab where id NOT IN (SELECT id FROM SecondTab WHERE id IS NULL)
+-- Subquery = [NULL]
+-- Condition: id NOT IN (NULL) → always UNKNOWN
+-- Since WHERE only keeps rows where condition is TRUE, no rows are returned.
+-- Expected answer = 0
 SELECT COUNT(*)
 FROM FirstTab AS ft
 WHERE ft.id NOT IN ( SELECT id FROM SecondTab WHERE id IS NULL );
 
 
-
 -- Q2
--- Query:
--- SELECT COUNT(*)
--- FROM FirstTab AS ft
--- WHERE ft.id NOT IN ( SELECT id FROM SecondTab WHERE id = 5 );
-
--- Explanation:
--- Subquery = (5).
--- Condition becomes "ft.id NOT IN (5)".
--- Rows left: 6, 7, NULL → 3 rows.
--- Expected answer = 3
-
+-- Query: Count rows where id NOT IN (SELECT id FROM SecondTab WHERE id = 5)
+-- Subquery = [5]
+-- Condition: id NOT IN (5)
+-- - id=5 → FALSE (excluded)
+-- - id=6, id=7 → TRUE (kept)
+-- - id=NULL → UNKNOWN (excluded)
+-- Rows kept = 2 (id=6, id=7)
+-- Expected answer = 2
 SELECT COUNT(*)
 FROM FirstTab AS ft
 WHERE ft.id NOT IN ( SELECT id FROM SecondTab WHERE id = 5 );
 
 
-
 -- Q3
--- Query:
--- SELECT COUNT(*)
--- FROM FirstTab AS ft
--- WHERE ft.id NOT IN ( SELECT id FROM SecondTab );
-
--- Explanation:
--- Subquery = (5, NULL).
--- Using NOT IN with NULL → result becomes UNKNOWN for all rows.
--- That means no row satisfies the condition.
+-- Query: Count rows where id NOT IN (SELECT id FROM SecondTab)
+-- Subquery = [5, NULL]
+-- Condition: id NOT IN (5, NULL)
+-- Because NULL is in the list, every comparison becomes UNKNOWN
+-- No rows are kept.
 -- Expected answer = 0
-
 SELECT COUNT(*)
 FROM FirstTab AS ft
 WHERE ft.id NOT IN ( SELECT id FROM SecondTab );
 
 
-
 -- Q4
--- Query:
--- SELECT COUNT(*)
--- FROM FirstTab AS ft
--- WHERE ft.id NOT IN ( SELECT id FROM SecondTab WHERE id IS NOT NULL );
-
--- Explanation:
--- Subquery = (5).
--- Condition = "ft.id NOT IN (5)".
--- Rows left: 6, 7, NULL → 3 rows.
--- Expected answer = 3
-
+-- Query: Count rows where id NOT IN (SELECT id FROM SecondTab WHERE id IS NOT NULL)
+-- Subquery = [5]
+-- Condition: id NOT IN (5)
+-- - id=5 → FALSE (excluded)
+-- - id=6, id=7 → TRUE (kept)
+-- - id=NULL → UNKNOWN (excluded)
+-- Rows kept = 2 (id=6, id=7)
+-- Expected answer = 2
 SELECT COUNT(*)
 FROM FirstTab AS ft
 WHERE ft.id NOT IN ( SELECT id FROM SecondTab WHERE id IS NOT NULL );
