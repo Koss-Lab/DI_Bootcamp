@@ -1,0 +1,64 @@
+{
+    "model_name": "Cats vs Dogs CNN",
+    "dataset": "Cats vs Dogs Binary Classification",
+    "image_size": [
+        180,
+        180
+    ],
+    "batch_size": 32,
+    "seed": 1337,
+    "epochs_trained": 20,
+    "best_epoch": 19,
+    "best_val_accuracy": 0.8679999709129333,
+    "best_val_loss": 0.3120322525501251,
+    "final_val_accuracy": 0.8555999994277954,
+    "final_val_loss": 0.3311668336391449,
+    "architecture": {
+        "type": "Sequential CNN",
+        "conv_blocks": 4,
+        "filters": [
+            32,
+            64,
+            128,
+            128
+        ],
+        "kernel_size": [
+            3,
+            3
+        ],
+        "pooling": "MaxPooling2D (2x2)",
+        "dropout_rate": 0.5,
+        "dense_units": 512,
+        "output_activation": "sigmoid"
+    },
+    "data_augmentation": {
+        "enabled": true,
+        "rotation_range": 45,
+        "width_shift_range": 0.15,
+        "height_shift_range": 0.15,
+        "zoom_range": 0.5,
+        "horizontal_flip": true
+    },
+    "training": {
+        "optimizer": "Adam",
+        "learning_rate": 0.001,
+        "loss": "binary_crossentropy",
+        "metrics": [
+            "accuracy"
+        ]
+    },
+    "callbacks": {
+        "early_stopping": {
+            "patience": 5,
+            "monitor": "val_loss"
+        },
+        "reduce_lr": {
+            "factor": 0.5,
+            "patience": 3,
+            "min_lr": 1e-07
+        },
+        "model_checkpoint": {
+            "monitor": "val_loss"
+        }
+    }
+}
