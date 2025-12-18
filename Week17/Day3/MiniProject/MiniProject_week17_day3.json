@@ -1,0 +1,645 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        144
+      ],
+      "id": "4c68023c-d462-4df7-8110-47d4dfcfed1b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1-oM8tUJaM99rif1D-pQvaR8HGx_FmjhDHrUSGz52beQ/edit?usp=sharing",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        144
+      ],
+      "id": "b2234422-1f3f-46af-a2f2-b20b12a43817",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g2Fd4XpdlnWDjrIQ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "content.parts[0].text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "99cb0432-ec50-4214-9272-cbc839020e5e",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an academic research assistant writing the introduction of a meta-analysis on Large Language Models (LLMs).\n\nYour task is to:\n1. Briefly introduce Large Language Models (LLMs) in a clear and concise manner suitable for a graduate-level audience.\n2. Clearly state the goal of the meta-analysis.\n3. Describe the unifying theme or research topic that connects the selected papers (e.g., instruction tuning, model efficiency, alignment, scaling laws, fine-tuning strategies).\n4. Explicitly list the titles of the selected papers along with their publication venues (conference, journal, or preprint archive).\n\nWriting constraints:\n- Use an academic and neutral tone.\n- Keep the introduction concise (approximately 1–2 paragraphs).\n- Do not include results, comparisons, or conclusions.\n- Do not assume prior knowledge of the specific papers.\n\nOutput format:\n- One short introductory paragraph.\n- One paragraph stating the goal and theme.\n- A bullet-point list of paper titles with publication sources.\n\n\nHere are the summaries of our 5 papers :\n## Summary 1\n{{ $json.text[0] }}\n\n## Summary 2\n{{ $json.text[1] }}\n\n## Summary 3\n{{ $json.text[2] }}\n\n## Summary 4\n{{ $json.text[3] }}\n\n## Summary 5\n{{ $json.text[4] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        896,
+        0
+      ],
+      "id": "e1cc9bfc-e200-449a-ba63-9c0f94028e5a",
+      "name": "Introduction",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "KAtokgNuwhVYOs0s",
+          "name": "DI - Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "document",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "text": "You are an academic research assistant tasked with summarizing a single research paper on Large Language Models (LLMs).\n\nYou will be given ONE paper as input.\n\nYour task is to:\n1. Provide the full academic citation, including:\n   - Authors\n   - Year of publication\n   - Paper title\n   - Venue (conference, journal, or arXiv)\n2. Clearly describe:\n   - The research problem or question\n   - The proposed method or solution\n   - The main results and findings\n3. Explicitly mention:\n   - Datasets used\n   - Model architecture(s)\n   - Training or fine-tuning approach\n   - Evaluation benchmarks and metrics\n\nWriting constraints:\n- Use an academic and objective tone.\n- Do not compare this paper to others.\n- Do not speculate beyond what is stated in the paper.\n- Be concise but complete (approximately 200–300 words).\n\nOutput format:\n- Citation (single paragraph or bullet)\n- Problem & motivation\n- Methodology\n- Results & evaluation",
+        "documentUrls": "={{ $('Get row(s) in sheet').item.json['Download Link (PDF)'] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        448,
+        80
+      ],
+      "id": "07d0da2d-51ce-426e-ba0d-1cbef141f49c",
+      "name": "Summaries",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "KAtokgNuwhVYOs0s",
+          "name": "DI - Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an academic research assistant performing a comparative analysis of multiple research papers on Large Language Models (LLMs).\n\nYou are given summaries of 3 to 5 papers.\n\nYour task is to compare the papers across the following dimensions:\n1. Objectives and problem domains\n2. Model architectures and key innovations\n3. Training or fine-tuning strategies\n4. Benchmarks, datasets, and evaluation metrics\n5. Strengths, limitations, and reproducibility considerations\n\nGuidelines:\n- Highlight similarities and differences explicitly.\n- Avoid ranking papers unless clearly justified.\n- Base all comparisons strictly on the provided summaries.\n\nPresentation requirements:\n- Include at least one comparative table summarizing key aspects.\n- Use short explanatory paragraphs to interpret the table.\n- Maintain an academic and neutral tone.\n\nOutput format:\n- Introductory paragraph\n- Comparative table\n- Analytical discussion paragraphs\n\n\nHere are the summaries of our 5 papers :\n## Summary 1\n{{ $json.text[0] }}\n\n## Summary 2\n{{ $json.text[1] }}\n\n## Summary 3\n{{ $json.text[2] }}\n\n## Summary 4\n{{ $json.text[3] }}\n\n## Summary 5\n{{ $json.text[4] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        80
+      ],
+      "id": "da519c98-7fd2-4808-be8d-80387392e4e9",
+      "name": "Comparative Analysis",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "KAtokgNuwhVYOs0s",
+          "name": "DI - Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an academic research assistant synthesizing insights from a set of research papers on Large Language Models (LLMs).\n\nYour task is to:\n1. Identify key trends or recurring patterns across the papers.\n2. Discuss which approaches or methodologies appear most promising or innovative, and why.\n3. Highlight common limitations, challenges, or open problems acknowledged by the authors.\n4. Propose plausible future research directions based on the observed gaps and trends.\n\nConstraints:\n- Base your reflections only on the analyzed papers.\n- Avoid introducing unrelated external work.\n- Do not restate paper summaries.\n- Use a critical but balanced academic tone.\n\nOutput format:\n- Clearly labeled sections corresponding to each question.\n- 1–2 concise paragraphs per section.\n\n\nHere are the summaries of our 5 papers :\n## Summary 1\n{{ $json.text[0] }}\n\n## Summary 2\n{{ $json.text[1] }}\n\n## Summary 3\n{{ $json.text[2] }}\n\n## Summary 4\n{{ $json.text[3] }}\n\n## Summary 5\n{{ $json.text[4] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        2272,
+        80
+      ],
+      "id": "08051442-d4ff-4f67-839a-79259fef7320",
+      "name": "Insights and Reflection",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "KAtokgNuwhVYOs0s",
+          "name": "DI - Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an academic research assistant writing the conclusion of a meta-analysis on Large Language Models (LLMs).\n\nYour task is to:\n1. Summarize the key findings and comparisons from the meta-analysis.\n2. Reflect on how the research area is evolving based on the reviewed papers.\n3. Emphasize the broader implications for future LLM research and development.\n\nWriting constraints:\n- Do not introduce new technical details.\n- Do not repeat paper-specific summaries.\n- Maintain a high-level and synthetic perspective.\n- Use an academic and forward-looking tone.\n\nLength:\n- Approximately one concise paragraph.\n\nOutput format:\n- Single concluding paragraph.\n\n\nHere are the summaries of our 5 papers :\n## Summary 1\n{{ $json.text[0] }}\n\n## Summary 2\n{{ $json.text[1] }}\n\n## Summary 3\n{{ $json.text[2] }}\n\n## Summary 4\n{{ $json.text[3] }}\n\n## Summary 5\n{{ $json.text[4] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        2848,
+        80
+      ],
+      "id": "fc0fc08f-1484-4baf-b375-b6a1f5a82f4e",
+      "name": "Conclusion",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "KAtokgNuwhVYOs0s",
+          "name": "DI - Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "default",
+        "title": "5 Papers Report"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        960,
+        288
+      ],
+      "id": "207a132b-4a83-4eb7-b955-9c6f4409a801",
+      "name": "Create a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "ah41gAPALVeGXFjG",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $json.content.parts[0].text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        0
+      ],
+      "id": "de914e51-7301-43e7-90fd-1b7fe0b497ff",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "ah41gAPALVeGXFjG",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $json.content.parts[0].text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        80
+      ],
+      "id": "e3b305e2-234e-4964-a5be-24b321acfb25",
+      "name": "Update a document1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "ah41gAPALVeGXFjG",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $json.content.parts[0].text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2048,
+        80
+      ],
+      "id": "76ce9866-607a-438b-8001-6eeb4b5296b5",
+      "name": "Update a document2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "ah41gAPALVeGXFjG",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $json.content.parts[0].text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2624,
+        80
+      ],
+      "id": "2fb6bd05-4868-40ba-a282-b8f73450721e",
+      "name": "Update a document3",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "ah41gAPALVeGXFjG",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        496,
+        992
+      ],
+      "id": "f1079999-742d-40ef-840b-9b747a32f2bf",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "rVbAkbHxZjVhsJmR",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an academic research assistant tasked with summarizing a single research paper on Large Language Models (LLMs).\n\nYou will be given ONE paper as input.\n\nYour task is to:\n1. Provide the full academic citation, including:\n   - Authors\n   - Year of publication\n   - Paper title\n   - Venue (conference, journal, or arXiv)\n2. Clearly describe:\n   - The research problem or question\n   - The proposed method or solution\n   - The main results and findings\n3. Explicitly mention:\n   - Datasets used\n   - Model architecture(s)\n   - Training or fine-tuning approach\n   - Evaluation benchmarks and metrics\n\nWriting constraints:\n- Use an academic and objective tone.\n- Do not compare this paper to others.\n- Do not speculate beyond what is stated in the paper.\n- Be concise but complete (approximately 200–300 words).\n\nOutput format:\n- Citation (single paragraph or bullet)\n- Problem & motivation\n- Methodology\n- Results & evaluation\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        576,
+        832
+      ],
+      "id": "d2633484-8cc1-414e-9080-7e5f98cb0c53",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['Download Link (PDF)'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        592,
+        496
+      ],
+      "id": "9efea6b9-0744-471f-85d8-f80f0b09d985",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {},
+      "name": "Read Binary File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "position": [
+        1376,
+        528
+      ],
+      "typeVersion": 1,
+      "id": "9bf6d302-5e6f-498d-9e6f-47c86e0e5ef4"
+    },
+    {
+      "parameters": {},
+      "name": "Read PDF",
+      "type": "n8n-nodes-base.readPDF",
+      "position": [
+        1568,
+        528
+      ],
+      "typeVersion": 1,
+      "id": "79da5b85-2411-4c88-9eaf-fecc3e7a0ee1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        624,
+        320
+      ],
+      "id": "bf8a4f94-d354-47f8-896b-4c6087d9af32",
+      "name": "Read/Write Files from Disk"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Summaries",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create a document",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Introduction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summaries": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update a document1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Introduction": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comparative Analysis": {
+      "main": [
+        [
+          {
+            "node": "Update a document2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insights and Reflection": {
+      "main": [
+        [
+          {
+            "node": "Update a document3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conclusion": {
+      "main": [
+        []
+      ]
+    },
+    "Create a document": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Update a document1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document1": {
+      "main": [
+        [
+          {
+            "node": "Comparative Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document2": {
+      "main": [
+        [
+          {
+            "node": "Insights and Reflection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document3": {
+      "main": [
+        [
+          {
+            "node": "Conclusion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Read Binary File": {
+      "main": [
+        [
+          {
+            "node": "Read PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Read Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "06c47ee5-b1f0-4765-818d-780381182486",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9797c960bb796720c3a80518a4443d4defac1a5f34bfda350d73e13585d1686d"
+  },
+  "id": "PU0IPH07w5KQZaMd",
+  "tags": []
+}
