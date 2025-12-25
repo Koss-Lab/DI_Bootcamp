@@ -1,0 +1,14 @@
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week3/Day2/ExercisesXP/ExercisesXP.py
+suggestions for improvement:
+- In Exercise 1, the output of `print(c1 + c3)` is commented out.  Uncomment it to demonstrate the error handling.
+- Add docstrings to functions for better readability and understanding.
+- Consider adding input validation to `minutes_lived` function to handle incorrect date formats gracefully.
+- Improve the `__str__` method in the `Currency` class to handle cases with amounts of 0 or 1, (e.g. '1 dollar' instead of '1 dollars').
+- In Exercise 2, the `func.py` file is missing. The code relies on its existence. You should include that file in your submission.
+Correctness: 95%
+-----
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week3/Day2/ExercisesXP/func.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
