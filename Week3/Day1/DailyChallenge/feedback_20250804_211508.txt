@@ -1,0 +1,12 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week3/Day1/DailyChallenge/DailyChallenge.py
+suggestions for improvement:
+- Add input validation to `go_to_page` to handle non-integer input more gracefully.
+- Consider adding a `__len__` method to allow using `len(p)` to get the total number of pages.
+- The `__str__` method could be improved by showing the current page number in the output for better user experience.
+- Improve error handling for `go_to_page` to provide more user-friendly error messages.
+Brief justification:
+- correctness: The code implements all the required methods of the `Pagination` class as specified in the instructions.  It handles page navigation correctly, uses list slicing for `get_visible_items`, and implements method chaining using `return self`. The custom exception handling for `go_to_page` is also implemented as specified. The only minor deviation is that it only checks if the input is an integer, rather than a non-negative integer. The test cases are mostly passed.
+- readability: The code is well-structured and easy to follow. Method names are descriptive, and the code is well-commented. However, adding more informative error messages and clarifying some variable names could further improve readability.
+- performance: The code's performance is efficient for the task. List slicing is generally efficient, and the navigation methods have a time complexity of O(1). The use of `math.ceil` for page calculation is also efficient.
+- security: The code doesn't have any apparent security vulnerabilities. The error handling in `go_to_page` prevents unexpected behavior from invalid inputs.
+
