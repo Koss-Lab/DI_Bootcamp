@@ -1,0 +1,18 @@
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week3/Day3/ExercisesXP/ExercisesXP.py
+suggestions for improvement:
+- The `get_words_from_file` function should include more robust error handling, such as handling cases where the file is empty or contains unexpected characters.  Consider adding a check to ensure `words` isn't empty before proceeding in `get_random_sentence`. 
+- Add input validation to Exercise 2 to ensure that the date format is correct before adding it to the JSON.
+- For improved performance in `get_random_sentence`, load the word list once outside the function, making it a global variable. The function should be changed to take this global variable as input instead of reading from the file each time.
+- In Exercise 1, the program does not handle the case where the word list might be empty.  This should be addressed to prevent errors or unexpected behavior.
+- Add comments explaining why a specific date format is chosen in Exercise 2 for better maintainability and clarity.
+- Consider using a more descriptive variable name than `f` in file handling operations to improve readability.
+Correctness: 95%
+-----
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week3/Day3/ExercisesXP/modified_employee.json
+suggestions for improvement:
+- The provided code snippet only addresses Exercise 2.  It's missing the code for Exercise 1 (the random sentence generator).
+- The code should be wrapped in functions as described in Exercise 2's instructions (load JSON, access salary, add birthdate, save to file).  The provided code simply shows the result after modification.
+- Error handling (e.g., `try-except` blocks) should be included to gracefully handle potential issues like file I/O errors or incorrect JSON format.
+- The date should be taken as user input instead of hardcoding it.
+Correctness: 80%
+-----
