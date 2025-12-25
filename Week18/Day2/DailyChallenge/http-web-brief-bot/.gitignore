@@ -1,45 +1,12 @@
-# =========================
 # Python
-# =========================
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
 
-# =========================
-# Virtual environment
-# =========================
+# Virtual env
 .venv/
-venv/
-env/
 
-# =========================
-# Environment variables / secrets
-# =========================
+# Environment variables
 .env
-.env.*
 
-# (keep example file)
-!.env.example
-
-# =========================
 # Outputs / generated files
-# =========================
-outputs/*.md
-
-# (OPTIONNEL)
-# If you want to keep ONE sample output tracked, comment the line above
-# and only ignore dated files instead:
-# outputs/brief_*.md
-# !outputs/brief_sample.md
-
-# =========================
-# OS / editor junk
-# =========================
-.DS_Store
-Thumbs.db
-
-# =========================
-# Logs
-# =========================
-*.log
-
+outputs/
