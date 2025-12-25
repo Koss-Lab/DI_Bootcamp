@@ -1,0 +1,16 @@
+streamlit
+python-dotenv
+
+langchain
+langchain_community
+langchainhub
+langgraph
+
+langchain_groq
+tavily-python
+
+faiss-cpu
+tiktoken
+chromadb
+
+ipykernel

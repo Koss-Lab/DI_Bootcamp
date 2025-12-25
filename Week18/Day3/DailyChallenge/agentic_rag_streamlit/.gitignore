@@ -1,0 +1,33 @@
+# =========================
+# Secrets & environment
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Python virtual env
+# =========================
+.venv/
+venv/
+ENV/
+env/
+
+# =========================
+# Python cache
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+
+# =========================
+# OS / editor
+# =========================
+.DS_Store
+.idea/
+.vscode/
+
