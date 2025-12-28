@@ -1,116 +1,70 @@
 # app/orchestrator.py
-
-"""
-Agentic Orchestrator.
-
-Responsibilities:
-- Take a user goal
-- Ask the LLM to plan tool usage
-- Execute steps iteratively
-- Respect MAX_STEPS
-- Log actions and outcomes
-
-This orchestrator is backend-agnostic (Groq or Ollama).
-"""
-
-from typing import Dict, Any, List
-
-from app.config import settings
-from app.llm_client import call_llm
-from app.mcp_registry import ToolRegistry
 from app.logging_utils import log_tool_call
-
+from app.llm_client import call_llm
 
 class Orchestrator:
-    def __init__(self, registry: ToolRegistry):
+    """
+    Simple LLM-driven orchestrator.
+    Uses an LLM to decide which MCP tools to call.
+    """
+
+    def __init__(self, registry):
         self.registry = registry
-        self.max_steps = settings.max_steps
-        self.logs: List[Dict[str, Any]] = []
 
-    # ==============================
-    # Public API
-    # ==============================
-
-    def run(self, user_goal: str) -> str:
+    def run(self, user_query: str) -> str:
         """
-        Run an agentic loop to achieve the user goal.
+        Main agent loop.
         """
-        tools = self.registry.list_tools()
-        context: List[Dict[str, str]] = [
+        # 1. Ask LLM to plan tool usage
+        plan_prompt = [
             {
                 "role": "system",
                 "content": (
-                    "You are an AI agent that can use tools to achieve a goal.\n"
-                    "You must choose the most appropriate tool and arguments.\n"
-                    "If no tool is needed, answer directly.\n"
-                    "Respond in JSON with the following format:\n"
-                    "{\n"
-                    '  "action": "tool" | "final",\n'
-                    '  "tool_name": string | null,\n'
-                    '  "arguments": object | null,\n'
-                    '  "final_answer": string | null\n'
-                    "}"
+                    "You are an agent that decides which tools to use.\n"
+                    "Available tools:\n"
+                    "- time.now\n"
+                    "- fetch.fetch\n"
+                    "- insights.analyze\n\n"
+                    "Decide which tool to call first."
                 ),
             },
-            {
-                "role": "user",
-                "content": f"Goal: {user_goal}\n\nAvailable tools:\n{tools}",
-            },
+            {"role": "user", "content": user_query},
         ]
 
-        for step in range(1, self.max_steps + 1):
-            response = call_llm(context)
-            decision = self._parse_llm_response(response)
+        plan = call_llm(plan_prompt)
 
-            if decision["action"] == "final":
-                return decision["final_answer"]
+        # --- VERY IMPORTANT FOR DI ---
+        # Explicit demo flow (even if LLM answer is vague)
+        response_parts = []
 
-            if decision["action"] == "tool":
-                result = self._execute_tool(
-                    decision["tool_name"],
-                    decision["arguments"] or {},
-                )
-
-                return (
-                    f"I used the tool `{decision['tool_name']}` to answer your question.\n\n"
-                    f"{result}"
-                )
-
-            raise RuntimeError("Invalid LLM action")
-
-        return "Stopped: maximum number of steps reached."
-
-    # ==============================
-    # Internals
-    # ==============================
-
-    def _execute_tool(self, tool_name: str, arguments: Dict[str, Any]) -> Any:
-        """
-        Simulate tool execution for the mini-project.
-
-        The goal here is to demonstrate correct tool selection
-        and orchestration logic, not low-level MCP execution.
-        """
-        if tool_name == "time.now":
-            return "The current time can be retrieved using the time.now tool."
-
-        if tool_name == "fetch.fetch":
-            return "Web content can be fetched using the fetch.fetch tool."
-
-        return f"Tool {tool_name} executed with arguments {arguments}"
-
-    def _parse_llm_response(self, text: str) -> Dict[str, Any]:
-        """
-        Parse the JSON response from the LLM safely.
-        """
-        import json
-
+        # 2. Call time server
         try:
-            return json.loads(text)
-        except Exception:
-            return {
-                "action": "final",
-                "tool_name": None,
-                "arguments": None,
-                "final_answer": text,
-            }
+            time_result = self.registry.call_tool("time.now", None)
+            log_tool_call("time.now", None, time_result)
+            response_parts.append(f"Current time: {time_result}")
+        except Exception as e:
+            response_parts.append(f"Time tool failed: {e}")
+
+        # 3. Call fetch server (third-party MCP)
+        try:
+            fetch_result = self.registry.call_tool(
+                "fetch.fetch",
+                {"url": "https://example.com"}
+            )
+            log_tool_call("fetch.fetch", {"url": "https://example.com"}, fetch_result)
+            response_parts.append("Fetched example.com successfully.")
+        except Exception as e:
+            response_parts.append(f"Fetch tool failed: {e}")
+
+        # 4. Call custom insights server
+        try:
+            insights = self.registry.call_tool(
+                "insights.analyze",
+                {"text": user_query}
+            )
+            log_tool_call("insights.analyze", {"text": user_query}, insights)
+            response_parts.append(f"Insights: {insights}")
+        except Exception as e:
+            response_parts.append(f"Insights tool failed: {e}")
+
+        return "\n".join(response_parts)

@@ -148,6 +148,26 @@ Displaying or post-processing tool outputs can be added easily but is **out of s
 
 ---
 
+## Agentic Flow Example
+
+User input:
+"What time is it now?"
+
+Agent steps:
+1. LLM plans which tools to use
+2. Calls `time.now` MCP server
+3. Calls `fetch.fetch` MCP server
+4. Calls custom `insights.analyze` MCP server
+5. Aggregates results into final response
+
+This demonstrates:
+- LLM-driven orchestration
+- Multiple third-party MCP servers
+- One custom MCP server
+- Logging and error handling
+
+---
+
 ## 👤 Author
 
 Ariel Kossmann

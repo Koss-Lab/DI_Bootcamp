@@ -15,16 +15,16 @@ from typing import Dict, List
 
 
 class ToolRegistry:
-    """
-    Logical registry of third-party MCP tools.
-    """
-
     def __init__(self):
-        # tool_name -> server_name
-        self._tool_index: Dict[str, str] = {
-            "fetch.fetch": "fetch",
-            "time.now": "time",
+        self.tools = {
+            "time.now": self._time_now,
+            "fetch.fetch": self._fetch,
+            "insights.analyze": self._insights,
         }
+
+    def call_tool(self, tool_name, args):
+        return self.tools[tool_name](args)
+
 
     def list_tools(self) -> List[dict]:
         return [
