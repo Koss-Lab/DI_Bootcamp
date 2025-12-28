@@ -1,0 +1,11 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week2/Day1/DailyChallenge/DailyChallenge.py
+suggestions for improvement:
+- The code correctly converts the matrix string into a 2D list and iterates through columns as specified. However, the space insertion in Step 4 could be improved for clarity and efficiency.
+- The regular expression used to remove extra spaces is efficient but might be less readable than a manual space-removal loop for beginners.
+- Add comments to further explain the purpose of the code sections for better readability
+Brief justification:
+- correctness: The code accurately implements all five steps outlined in the chapter content.  It correctly transforms the string into a 2D list, iterates through columns, filters alpha characters, replaces non-alpha characters between alpha characters with spaces, and constructs the final message. The only minor deviation is in the exact method of space insertion, which could be refined for greater clarity.  The core functionality meets all requirements.
+- readability: The code is mostly readable.  However, the logic for inserting spaces in step 4 could be improved to increase clarity.  The use of a regular expression at the end makes the code slightly less readable for beginners. Adding comments to further clarify the code's structure and different steps will greatly improve readability.
+- performance: The performance is good for this task. The algorithm's time complexity is linear with respect to the size of the input string. The use of a regular expression at the end is efficient for removing multiple spaces. While more basic methods might be more clear for beginners, they are not as efficient.
+- security: There are no security concerns in this code as it only deals with string manipulation and does not interact with external systems or handle user input that could lead to vulnerabilities.
+

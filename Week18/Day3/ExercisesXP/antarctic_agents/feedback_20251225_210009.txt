@@ -1,0 +1,12 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day3/ExercisesXP/antarctic_agents/requirements.txt
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day3/ExercisesXP/antarctic_agents/starter.py
+suggestions for improvement:
+- Consider adding more descriptive comments to explain complex logic, particularly within the `ScientistAgent.respond_to_action` method where decisions about food and tool distribution are made.
+- The `build_model` function is a good addition for robustness. It would be even better if it included logging to indicate which provider ('hf-inference') is ultimately selected.
+- While the scientist's decision-making is functional, the logic is relatively simple (min(2, food_supply) and random.random() < 0.3). Exploring ways to make these decisions more context-aware (e.g., based on penguin's food levels or past behavior) could enhance the simulation's realism, without requiring complex reasoning.
+Correctness: 100%
+-----
