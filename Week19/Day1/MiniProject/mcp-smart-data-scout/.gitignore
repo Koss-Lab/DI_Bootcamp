@@ -1,0 +1,47 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables
+.env
+
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+.vscode/
+.idea/
+
+# =========================
+# Streamlit
+# =========================
+.streamlit/
+
+# =========================
+# Logs / temp
+# =========================
+logs/
+*.log
+
+# =========================
+# MCP / Node (servers repo)
+# =========================
+servers/**/node_modules/
+servers/**/dist/
+servers/**/.turbo/
+
+# =========================
+# Generated outputs
+# =========================
+workspace/
+outputs/
