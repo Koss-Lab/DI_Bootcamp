@@ -1,0 +1,61 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- The configuration file itself doesn't fulfill the core requirements of the mini-project, such as creating custom tools and exposing them through a personal MCP server. It only configures settings related to MCP servers and LLMs.
+- The configuration for `mcp_insights_command` and `mcp_insights_args_raw` suggests an attempt to create a custom server, but it's unclear if this server implements actual tools with defined input/output schemas as required by the project. More details on the server implementation are needed.
+- The provided settings include configurations for both GroqCloud and Ollama, satisfying the runtime options requirement. However, the project asks for the LLM to choose next actions based on intermediate results, which is agentic planning and would require further modules to implement.
+Correctness: 20%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/init.py
+suggestions for improvement:
+- The code snippet provided only shows the initialization of an application that likely uses an MCP registry and orchestrator. It doesn't implement the key requirements of the mini-project, such as creating a custom MCP server with custom tools, combining it with external servers, and using an LLM for planning.
+- The code does not expose any custom tools or define their schemas.
+- The code lacks any explicit integration with GroqCloud or Ollama, as specified in the requirements.
+- The code does not demonstrate how the LLM chooses next actions based on intermediate results.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/llm_client.py
+suggestions for improvement:
+- This code only implements an LLM client. It does not address the core requirements of the project: creating a custom MCP server with tools, composing with external servers, and implementing agentic planning.
+- The code does not include any custom tools or MCP server implementation.
+- Consider adding input validation to the `call_llm` function to prevent injection attacks, especially if user input is incorporated into the messages.
+- Implement more robust error handling for specific HTTP status codes and exceptions.
+- The code does not include mechanisms to discover or interact with tools from external MCP servers.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- The provided code shows a Streamlit UI and attempts to connect to different MCP servers, but it lacks the implementation details for the custom MCP server and tools. Therefore, it's not possible to fully assess its correctness relative to the mini-project requirements.
+- The code outlines the connection to third-party and custom MCP servers, and it sets up an orchestrator, but without the definition of the orchestrator and insights_server, we cannot assess if the planning and robustness requirements are met.
+- To improve the code, you should provide the code for the custom MCP server (insights_server.py) and the Orchestrator class so that it can be assessed if the code satisfies the requirements.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- The code implements a mock MCP server with two tools: analyze_sentiment and clean_text. While this fulfills the requirement of creating a custom MCP server with tools, it lacks integration with external MCP servers from Part 1, as required by the 'Composition' requirement.
+- The code could be improved by allowing the addition of external MCP servers and routing calls to them based on the tool name. This would demonstrate the composition aspect of the assignment.
+- Consider adding more robust input validation and error handling to the tool implementations to improve security.
+Correctness: 50%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The code implements an orchestrator that uses an LLM to plan and execute tool calls. However, it doesn't include the custom MCP server and tools, so it only partially fulfills the requirements.
+- The code assumes that the tool registry already contains tools from the user's MCP server and external MCP servers. This assumption needs to be validated.
+- The code handles JSON parsing errors and ToolRegistryErrors, which improves robustness. However, more comprehensive error handling could be added.
+- Consider adding more logging to track the execution of the orchestrator, including the user goal, available tools, LLM input and output, tool calls, and results.
+- Consider adding input validation to the tool arguments to prevent errors during tool execution.
+Correctness: 50%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- Consider using a proper sentiment analysis library (e.g., VADER) for more robust and accurate sentiment detection.
+- Implement more comprehensive text cleaning to handle a wider range of punctuation, special characters, and HTML entities.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/full_agent.py
+suggestions for improvement:
+- The agent currently only interacts with the custom server if the user goal contains 'sentiment'. This limits the composition aspect. Expand the agent's planning logic to utilize other tools, including those from external servers, even when the goal doesn't explicitly mention sentiment.  The user story should demonstrate combination of your server with ≥ 2 external servers.
+- The planning logic is hardcoded and deterministic (if 'sentiment' is present, use `analyze_sentiment`). Replace this with dynamic planning driven by the LLM, as the requirements state 'Let the LLM choose next actions'.  Currently the LLM is not used, replace the direct tool call with an LLM call
+- Add support for GroqCloud or Ollama as specified by the requirements. The agent now defaults to the registry, but should allow configuration.
+- Add error handling. The agent should be able to handle failures from tool calls and re-plan accordingly. This is important for robustness.
+Correctness: 75%
+-----
