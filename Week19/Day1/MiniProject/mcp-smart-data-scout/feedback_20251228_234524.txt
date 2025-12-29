@@ -1,0 +1,69 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/__init__.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- The configuration file focuses on setting up the environment and doesn't contain any code that directly interacts with or orchestrates the MCP servers.  The actual agentic application logic is missing.
+- The configuration provided is comprehensive but doesn't showcase any implementation of planning, error handling, or observability as described in the prompt. The code only sets the stage for the requirements.
+- The provided code does not integrate a third MCP server. The task asks for at least two third-party servers and one from your own server, however, the code only configures two MCP servers.
+Correctness: 50%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/llm_client.py
+suggestions for improvement:
+- The provided code only implements the LLM client, which is just one part of the overall task. It needs to be integrated with MCP servers and orchestration logic.
+- The code lacks the core functionality of integrating third-party MCP servers as specified in the task.
+- The code should include error handling and logging as described in the functional requirements.
+Correctness: 50.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/logging_utils.py
+suggestions for improvement:
+- This code provides utility functions for logging tool calls, which is a component mentioned under 'Observability' within the 'Functional requirements'. However, it doesn't address the core task of building an end-to-end agentic application integrating third-party MCP servers, orchestration, and LLM planning, which is the main requirement of the mini-project. Therefore, it's only a small part of what is needed.
+Correctness: 0.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- The provided code snippet focuses primarily on the Streamlit UI and agent interaction, showcasing a basic interface for querying an LLM-driven agent. While it sets the stage for an MCP application, it doesn't fully demonstrate all requirements outlined in the chapter content, particularly the integration and orchestration of multiple third-party MCP servers. It lacks the explicit setup and connection to these servers, the planning logic that utilizes them in concert, and the error handling mechanisms.
+- To fully meet the project requirements, ensure the `ToolRegistry` and `Orchestrator` classes are implemented to handle the discovery and usage of multiple third-party MCP servers. The `Orchestrator` should use the LLM to intelligently decide which tools to call in what order, based on the user's query and the available tools from the registry.
+- Implement robust error handling within the agent orchestration loop to gracefully handle timeouts, invalid inputs, and other potential issues when interacting with the MCP servers. Include retry mechanisms or fallback strategies as necessary.
+- Log each tool call with inputs/outputs (summarized) for debugging and monitoring purposes. This observability is crucial for understanding how the agent is making decisions and identifying potential problems.
+Correctness: 70%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- This code defines a `ToolRegistry`, but it doesn't directly contribute to building an end-to-end agentic application that integrates third-party MCP servers, uses an LLM for planning, or handles errors as specified in the project requirements. The code mainly serves as a lookup for tool names and corresponding server names.
+- To fulfill the project requirements, you'll need to implement the MCP client orchestration, LLM integration (GroqCloud or Ollama), error handling, and logging as described in the Chapter Content/Questions.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The code does not fulfill the core requirement of integrating at least two third-party MCP servers. The `_execute_tool` method simulates tool execution instead of actually calling remote MCP servers.
+- The code lacks error handling for tool execution. Consider adding `try...except` blocks to handle potential issues like timeouts or invalid responses from the MCP servers.
+- Implement logging within the `_execute_tool` function to record the inputs and outputs of each tool call for observability, adhering to the requirement to log tool calls with summarized inputs/outputs (excluding secrets).
+- The code is missing the Streamlit integration for building components.
+Correctness: 30%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/__init__.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/requirements.txt
+suggestions for improvement:
+- This is just a list of dependencies, not an actual implementation. A full implementation integrating MCP servers, LLM planning, and a Streamlit UI is needed.
+- The project needs to demonstrate the integration of at least two third-party MCP servers along with a custom server within a single flow.
+- The project must showcase LLM-driven orchestration, meaning the LLM should dynamically decide the order and execution of tool calls, rather than following a hard-coded sequence.
+- Robust error handling, including retries or fallback strategies, should be implemented to manage timeouts and invalid inputs effectively.
+- All tool calls, along with their inputs and summarized outputs (excluding sensitive information), should be logged for enhanced observability.
+- Implement configuration via environment variables to handle LLM backend (Groq or Ollama) and server endpoints, allowing for easy switching and setup.
+- Integrate with Streamlit to create an interactive user interface for the application.
+- A simple startup sequence, such as a short command sequence, should be documented to ensure reproducibility on a clean machine.
+- More documentation is needed to understand dependencies and setup clearly.
+Correctness: 10.0%
+-----
