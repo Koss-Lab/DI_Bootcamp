@@ -1,0 +1,34 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- The config file is a good start, but it doesn't actually integrate any third-party MCP servers from the provided GitHub repository. The `mcp_time_command` and `mcp_fetch_command` appear to be placeholders for local servers, not external ones.  The task explicitly requires integration of at least two third-party servers.
+- The configuration should be more flexible to allow users to easily specify the URLs/endpoints of the third-party MCP servers, rather than just commands to run local servers.
+- Consider adding validation to ensure the specified LLM backend (Groq or Ollama) is valid.
+Correctness: 30%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- Consider adding input validation to the question field to prevent potential injection attacks or unexpected behavior from malformed inputs.
+- Implement more robust error handling for individual MCP server connections, perhaps with specific error messages for each server to aid debugging.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- The provided code only implements a *mocked* tool registry, and explicitly disables the actual MCP integration with a `RuntimeError`. This directly contradicts the requirement to integrate with third-party MCP servers and run them locally.
+- The MOCK_MODE flag is set to True, preventing any real MCP connections. This defeats the purpose of the mini-project.
+Correctness: 0.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The orchestrator logic is too simplistic and hardcoded. It only checks for specific keywords like 'time' or 'analyze', which doesn't fulfill the requirement of using an LLM for planning and orchestrating tool calls based on the user's goal. The LLM should intelligently decide which tools to use and in what order.
+- The orchestrator should handle potential errors from tool calls, such as timeouts or invalid inputs. Currently, it doesn't have any error handling mechanism, as specified in the 'Error handling' requirement.
+- The code needs to be extended to integrate at least two third-party MCP servers, as the current code only seems to interact with tools 'time.now' and 'insights.analyze'. The integration part is missing. The code does not integrate with any servers at all.
+- Observability is not implemented. The code doesn't log tool calls (inputs/outputs summarized; no secrets). This is a key requirement.
+- The code uses hardcoded logic. It does not leverage environment-based configuration for LLM backend (Groq or Ollama) and server endpoints as required.
+Correctness: 30%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- This is just a simple analysis tool, which is part of what's needed, but the task specifies integrating *third-party* MCP servers. This code defines a tool, not the entire application incorporating the required elements.
+- The code lacks the orchestration logic and integration with LLMs as described in the prompt. It needs to demonstrate how the defined tool is used in conjunction with third-party MCP servers and LLMs for planning and execution.
+Correctness: 0%
+-----
