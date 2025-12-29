@@ -1,0 +1,55 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- Consider using a dedicated library like `python-dotenv` for loading environment variables, which can improve code clarity and maintainability compared to relying solely on pydantic-settings' built-in `.env` support.
+- The `extra='ignore'` setting in `SettingsConfigDict` is useful, but it might be beneficial to log or provide a warning when unknown environment variables are encountered. This can aid in debugging configuration issues.
+- The helper properties for splitting arguments (`mcp_time_args`, `mcp_fetch_args`, `mcp_insights_args`) are good for readability. Consider adding a unit test to ensure these split correctly under various circumstances (e.g., arguments with spaces).
+Correctness: 75%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/init.py
+suggestions for improvement:
+- Implement custom tools within the MCP server.
+- Implement an agentic client that discovers and uses tools from both your server and external servers.
+- Integrate LLM (GroqCloud or Ollama) for planning and execution.
+- Ensure your MCP server exposes at least 1-2 custom tools with clear schemas.
+- Combine your server with at least two external servers in a single orchestration.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/llm_client.py
+suggestions for improvement:
+- This module focuses solely on interacting with LLMs, which is not directly related to building a custom MCP server and integrating it with external servers as the main project requires.
+- The code lacks any implementation of custom tools or their exposure through an MCP server.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- The provided code is a Streamlit UI and orchestrator, but it does not include the implementation of the custom MCP server with tools, which is a core requirement of the project. It also does not demonstrate how the LLM chooses next actions based on intermediate results.
+- The prompt mentions "full_agent.py", yet the content of that file is not included, making it impossible to assess if the core requirements are met there.
+- The custom server connection uses a relative path "app/servers/insights_server.py", suggesting the server exists but is not provided in the submission. This prevents assessment of its compliance with the prompt's requirements.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- Consider using a more robust sentiment analysis method for the 'analyze_sentiment' tool in a real-world scenario.
+- Add input validation and error handling for the arguments passed to the tools.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The code implements an orchestrator, which is good, but it doesn't explicitly show the creation of a custom MCP server with custom tools as required by the chapter. It focuses on the client-side orchestration but misses the server-side implementation.
+- The code needs to demonstrate how it integrates the custom MCP server with at least two external servers from Part 1. This integration should be evident in the tool discovery and planning process.
+- The code includes error handling for invalid JSON and tool failures, enhancing robustness. However, there's no explicit mention of supporting both GroqCloud and Ollama via environment configuration. This needs to be shown to fully meet the requirements.
+Correctness: 50%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- Consider adding more sophisticated text cleaning in the clean_text tool, such as stemming or lemmatization.
+- Enhance the sentiment analysis in the analyze_text tool by incorporating a sentiment analysis library for more accurate results.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/full_agent.py
+suggestions for improvement:
+- The agent currently only uses the sentiment analysis tool in a deterministic manner. Expand the planning logic to incorporate multiple tools and more complex decision-making based on the LLM (even if it is simulated for checker-safe mode).
+- Implement support for GroqCloud or Ollama as specified by the environment configuration.  The current implementation lacks this dynamic model selection.
+- Add more robust error handling, especially around tool calls.  The exercise specifies re-planning on failures. This is not addressed.
+Correctness: 75%
+-----
