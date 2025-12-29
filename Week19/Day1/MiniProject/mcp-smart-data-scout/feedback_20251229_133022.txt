@@ -1,0 +1,47 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- The code should implement the MCP client orchestration, not just the configuration.
+- The configuration should also handle the endpoints for the third-party MCP servers.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- Consider adding more detailed logging for observability, as suggested in the requirements.
+- Implement retry mechanisms or fallback steps more explicitly for improved error handling.
+- Add input validation for the user question in the Streamlit app.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- The code implements a mock MCP registry, which is contrary to the project's requirement of integrating with *third-party* MCP servers.
+- The project requires the use of at least two third-party MCP servers, not a mocked version.
+- The code prevents actual execution of MCP calls with `MOCK_MODE = True` and a `RuntimeError`.
+Correctness: 0.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The code does not integrate any third-party MCP servers as requested in the prompt. The prompt requires the integration of at least two third-party MCP servers, along with the user's server, into a single flow.
+- The planning aspect is hardcoded with if statements. The prompt specified that the LLM must be used to plan and orchestrate tool calls based on the user goal.
+- The code lacks explicit error handling for timeouts or bad inputs, as specified in the functional requirements.
+- The code does not demonstrate the use of GroqCloud or Ollama, which were options specified in the prompt for the LLM backend.
+Correctness: 20%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/__init__.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- This code defines a function `analyze` that performs sentiment analysis, but it doesn't integrate with any third-party MCP servers as required by the prompt.  It also doesn't include any client-side orchestration, connection to an LLM, or error handling as described in the prompt.
+- The prompt requires the creation of an end-to-end agentic application utilizing at least two third-party MCP servers, local running of those servers, LLM-driven planning, and integration into a Streamlit application. This single function does not address any of these requirements.
+- The code does not fulfill the functional requirements of composition, planning, error handling, observability, and configuration specified in the prompt.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/requirements.txt
+suggestions for improvement:
+- This is a requirements.txt file listing dependencies, not an implementation of the mini-project as described in the chapter. It does not address the core tasks of integrating third-party MCP servers, orchestrating them with an LLM, or building an end-to-end application.
+- The file lists several packages correctly associated with the project description (mcp, mcp-server-fetch, streamlit), but it is not itself a solution to the problem stated in the project description.
+- A key next step is implementing the actual logic for discovering, planning, and executing tool calls using the specified MCP servers and LLM backend.
+Correctness: 0.0%
+-----

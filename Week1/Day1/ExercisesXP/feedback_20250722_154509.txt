@@ -1,0 +1,11 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week1/Day1/ExercisesXP/Exercises_XP.py
+suggestions for improvement:
+- In Exercise 2, the `^` operator is bitwise XOR, not exponentiation. Use `**` for exponentiation.
+- Exercise 3: The code correctly predicts the output of the first three lines but should handle the type error in the comparison of string and integer ('3' > 3).  It should explain that comparing a string to an integer will lead to a TypeError in Python.  It also should address the case sensitivity in the comparison of strings ('Hello' == 'hello').
+- Add comments to explain the logic in each exercise, particularly in more complex ones like Exercise 7 and 9.
+Brief justification:
+- correctness: Most exercises correctly implement the specified tasks. Exercise 2 uses the wrong operator for exponentiation, leading to an incorrect result. Exercise 3 partially addresses the problem, missing type error handling and case sensitivity explanation. The rest of the exercises directly address the chapter content (print statements, variables, mathematical operations, comparison operators, if statements, and user input) and are mostly correctly implemented.
+- readability: The code is generally well-formatted and easy to follow. Adding comments would improve readability, especially to explain the logic behind the solutions.
+- performance: The code's performance is adequate for the given tasks.  No significant performance issues are observed.
+- security: No security vulnerabilities are present in this code because it's only performing simple operations and doesn't interact with external systems or handle sensitive data.
+

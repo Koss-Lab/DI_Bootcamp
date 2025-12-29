@@ -1,0 +1,13 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week1/Day2/ExercisesXP/Exercises_XP.py
+suggestions for improvement:
+- In Exercise 1, the use of a tuple for `friend_fav_numbers` is inconsistent with the instructions that specify sets for both sets of favorite numbers.  It should be a set.
+- In Exercise 3, `basket.pop()` removes the last element; the instructions say to remove "Blueberries" specifically.  Use `basket.remove("Blueberries")`.
+- Exercise 7's fruit comparison is case-sensitive. Convert both inputs to lowercase for better comparison.
+- Exercise 9's bonus could be improved by directly filtering the list instead of creating separate lists for allowed and not allowed. Use list comprehension.
+- Add comments to explain complex logic sections (particularly loops) and non-obvious calculations.
+Brief justification:
+- correctness: The code largely addresses the exercises accurately.  Minor deviations in Exercises 1, 3, and 7, as noted in the feedback, prevent a perfect score. The code directly implements the functionality described in the chapter content, demonstrating understanding of sequences (lists, sets, tuples), loops (for, while), and other specified concepts.  The bonus in Exercise 9 also shows proficiency in conditional logic.
+- readability: The code is generally readable. However, using more descriptive variable names and adding comments in certain areas would improve clarity. Some parts, like the loop in Exercise 9, could benefit from clearer structuring to enhance understanding.  The code is generally well-formatted.
+- performance: The code's performance is efficient for the tasks presented. No major performance bottlenecks are visible. The algorithms used are generally optimal for these small-scale operations.
+- security: The code does not involve any external inputs or interactions that could pose security risks. It’s a safe and controlled environment for the exercises.
+
