@@ -1,0 +1,12 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week1/Day3/DailyChallenge/DailyChallenge.py
+suggestions for improvement:
+- In Challenge 2, the code has a minor error in handling the `wallet` variable. The dollar sign is at the end instead of the beginning.  The code should be more robust to handle this variation.
+- Add more comprehensive error handling in Challenge 2 (e.g., try-except blocks to handle potential `ValueError` exceptions if the price string can't be converted to an integer).
+- Improve the readability of Challenge 2 by using more descriptive variable names (e.g., instead of `wallet`, use `available_funds`).
+- Add comments to explain the logic and purpose of different code sections in both challenges, enhancing readability.
+Brief justification:
+- correctness: The code for Challenge 1 correctly creates a dictionary mapping letters to their indices. Challenge 2 correctly processes the provided dictionary and wallet amount, identifies affordable items and outputs them alphabetically.  The minor error regarding the position of the dollar sign in the wallet variable reduces the correctness score slightly.  Both challenges align with the specified Python topics (dictionaries, loops, conditionals, string manipulation).
+- readability: The code is generally readable.  However, variable names in Challenge 2 could be more descriptive. Adding comments would further improve readability.
+- performance: The code's performance is efficient for the given task. The time complexity is linear (O(n)) for both challenges, which is reasonable given the small input sizes.
+- security: The code doesn't have any obvious security vulnerabilities.  It doesn't interact with external systems or handle user-provided data in a way that could introduce security risks.
+

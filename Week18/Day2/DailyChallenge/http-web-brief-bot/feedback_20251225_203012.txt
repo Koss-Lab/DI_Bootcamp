@@ -1,0 +1,19 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day2/DailyChallenge/http-web-brief-bot/client.py
+suggestions for improvement:
+- Consider adding more robust error handling for cases where API calls fail or return unexpected data formats.
+- The `pick_three_distinct_domains` function could be made more efficient by using a set to check for duplicate domains instead of iterating through the `picked` list.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day2/DailyChallenge/http-web-brief-bot/requirements.txt
+suggestions for improvement:
+- The provided code is a list of Python dependencies, not an implementation of the requested server or client functionality. Therefore, it does not address any of the requirements outlined in the Chapter Content/Questions.
+- The submission needs to include code that implements the HTTP API endpoints, the CLI client, and the overall workflow described in the problem description.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day2/DailyChallenge/http-web-brief-bot/server.py
+suggestions for improvement:
+- Consider adding more specific error handling for different types of exceptions in the `fetch_url_html` function to provide more informative error messages.
+- The `extract_json_loose` function is a good attempt at handling imperfect JSON, but it might benefit from more robust parsing or validation to prevent unexpected behavior with malformed JSON.
+- The summarization fallback mechanism is excellent, but consider logging when the fallback is triggered to aid in debugging and monitoring the LLM's reliability.
+Correctness: 100%
+-----
