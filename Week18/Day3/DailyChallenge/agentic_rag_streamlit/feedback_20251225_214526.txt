@@ -1,0 +1,22 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day3/DailyChallenge/agentic_rag_streamlit/agentic_rag.ipynb
+suggestions for improvement:
+- The code implements the core components required: loading API keys, creating a retriever, and building an agentic RAG pipeline. However, it does not fully implement the 'reasoning -> retrieve -> read -> synthesize' loop as described in the learning objectives. The current implementation does not involve a tool-using agent, which is a key aspect of the challenge.
+- The code uses a `FakeEmbeddings` which is useful for demonstration, but should be replaced with real embeddings for a functional application.
+- The prompt lacks specific instructions for source attribution, which is a key learning objective. While it says "Cite sources," it does not guide the model on *how* to cite them. Add instructions to reference the `metadata['source']` field of retrieved documents.
+- Consider implementing error handling, especially around API calls, to improve the robustness of the application.
+- Implement the suggested packages from the instructions in the provided notebook like langgraph and chromadb to show more advanced understanding of the material.
+Correctness: 70%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day3/DailyChallenge/agentic_rag_streamlit/app.py
+suggestions for improvement:
+- Consider using a more robust error handling mechanism for loading the notebook content, perhaps displaying a more user-friendly message if the file is missing or corrupted.
+- The code is well-structured, but adding comments to explain the purpose of each section would improve readability further, especially for those unfamiliar with Streamlit or Langchain.
+- While the simulated agent is acceptable as per the instructions, ensure that the final implementation replaces it with an actual agent that performs the required reasoning, retrieval, reading, and synthesis.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day3/DailyChallenge/agentic_rag_streamlit/requirements.txt
+suggestions for improvement:
+- This submission only contains a list of libraries, not the implementation of the Streamlit app and agentic RAG pipeline as described in the problem.
+- The submission is missing the `app.py` and `agentic_rag.ipynb` files, which are critical components of the challenge.
+Correctness: 0%
+-----

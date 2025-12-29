@@ -1,0 +1,9 @@
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week3/Day1/ExercisesXP/ExercisesXP.py
+suggestions for improvement:
+- In Exercise 1, the `Siamese` class doesn't add any unique attributes or methods, which is fine based on the instructions, but it could be improved by adding breed-specific traits if desired.  For example, a method describing coat color could be added.
+- In Exercise 1, consider adding error handling (e.g., a `try-except` block) to the `Pets.walk()` method in case `animal.walk()` raises an exception for some reason.
+- In Exercise 2, the `fight()` method could be made more robust by handling cases where `age` or `weight` might be zero or negative, to avoid division by zero or other unexpected results.
+- In Exercise 3, add a docstring to the classes and methods to explain their functionality, improving readability and maintainability.
+- The code for Exercise 4 is well-structured and functional. Consider adding error handling in the `check_majority` method to gracefully handle the case where the person is not found.
+Correctness: 100%
+-----
