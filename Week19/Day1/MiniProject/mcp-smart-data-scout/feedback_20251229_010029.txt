@@ -1,0 +1,72 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/__init__.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- The code is a configuration file, and it does not implement the orchestration logic as asked in the prompt. The orchestration logic should encompass tool discovery, LLM prompting for tool selection and argument determination, step-by-step execution, result streaming, and error handling with retries or fallback strategies.
+- The code only defines the settings for the project. It needs to be accompanied by the implementation of the agent that uses these settings to integrate the third-party MCP servers and orchestrate the tool calls using an LLM.
+- Consider using more descriptive variable names to enhance readability further.
+Correctness: 70%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/init.py
+suggestions for improvement:
+- The submission provides an empty `app/init.py` file. This does not address any of the requirements outlined in the chapter content, which involve building an end-to-end agentic application integrating multiple third-party MCP servers and orchestrating them with an LLM.
+- The submission is missing the core logic for connecting to MCP servers, implementing the LLM-driven planning and orchestration, and handling errors as requested in the chapter.
+Correctness: 0.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/llm_client.py
+suggestions for improvement:
+- The code focuses solely on interacting with an LLM (GroqCloud or Ollama). It completely misses the core requirement of integrating at least two third-party MCP servers and orchestrating them to achieve a user goal.
+- The code includes retry logic, which is good, but the retry condition only accounts for network errors and LLM errors. It should also handle potential errors arising from interacting with the MCP servers.
+- The code lacks error logging.
+- Consider using a more robust configuration management library (like Pydantic settings management) for managing environment variables.
+Correctness: 20%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/logging_utils.py
+suggestions for improvement:
+- This code implements logging functionality, which, while helpful for observability, doesn't directly address the core task of integrating third-party MCP servers, orchestrating them with an LLM, and achieving a user goal as specified in the problem description.
+- The code should be part of a larger implementation, focusing on the integration and orchestration aspects mentioned in the problem description.
+Correctness: 0.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- Consider adding more detailed error handling, especially around server connection failures.
+- Implement logging more thoroughly to improve observability, particularly around individual tool calls and their inputs/outputs.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- Consider adding more robust error handling, including retries or fallback mechanisms as the instructions suggest.
+- Implement logging of tool calls with summarized inputs/outputs, excluding any sensitive information.
+- Provide an example of how this ToolRegistry would be used within an LLM-driven orchestration flow.
+- Incorporate a configuration mechanism (env vars) to handle server endpoints and LLM backend choices.
+- It's good to see `mcp.client.session` and `mcp.client.stdio` being used, indicating interaction with the MCP ecosystem, but it's unclear if the 'time' and 'fetch' tools being connected to are third-party MCP servers or just examples.  This needs to be clarified.
+Correctness: 80%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The Orchestrator class needs to handle multiple tool calls in a loop to fully realize the planning aspect. The current implementation only executes one tool call per user input.
+- Error handling should include retries or fallback mechanisms as specified in the 'Functional requirements'. Currently, it only catches generic exceptions and returns error messages.
+- The Orchestrator lacks logging of tool calls (inputs/outputs) for observability.  This is a 'Functional requirement'.
+- The code should retrieve tool descriptions from the MCP server to provide more context to the LLM. The prompt should include tool descriptions.
+Correctness: 50%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/__init__.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- Add more detailed comments to explain the purpose of each function and variable.
+- Consider adding type hints for all function arguments and return values to improve code clarity.
+Correctness: 10.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/requirements.txt
+suggestions for improvement:
+- The provided file only contains a list of dependencies. It does not contain any code that implements the functionality described in the chapter, such as integrating third-party MCP servers, using an LLM for planning, or handling errors.
+- To address the requirements, you need to create a Python script that uses these libraries to implement the agentic application as described.
+Correctness: 0.0%
+-----
