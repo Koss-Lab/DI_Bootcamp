@@ -91,21 +91,30 @@ GROQ_API_KEY=your_api_key_here
 > ⚠️ `.env` is intentionally ignored by Git.
 
 ---
+## Installation
 
-## 🚀 Installation & Setup
+This project uses Python 3.10+ and relies on the following packages:
 
-### 1️⃣ Create virtual environment
+- mcp
+- pydantic
+- pydantic-settings
+- httpx
+- streamlit
+
+### Setup example
 
 ```bash
-python3 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
-```
+pip install mcp pydantic pydantic-settings httpx streamlit
+````
 
-### 2️⃣ Install dependencies
+### Running the app
 
 ```bash
-pip install -r requirements.txt
+streamlit run app/main_streamlit.py
 ```
+
 
 ### 3️⃣ (Optional) Verify MCP Time Server
 
