@@ -1,0 +1,12 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week2/Day2/MiniProject/MiniProject1.py
+suggestions for improvement:
+- The `player_input` function could be made slightly more concise by using a single `if` statement to check the validity of the input instead of separate checks for length, range, and occupied cells.  This might improve readability.
+- Consider adding a more descriptive prompt in the `player_input` function to improve user experience; for example, show the current board state before asking for input.
+- The performance could be slightly improved by avoiding redundant board displays.  The board is displayed twice in a row if a player wins.  Change the `if check_win` statement to display only once.
+- While the code is secure regarding user input validation, it is good practice to sanitize user input even more stringently in production environments.  Consider using methods to validate inputs against unexpected character inputs.
+Brief justification:
+- correctness: The code accurately implements all the requirements specified in the chapter content.  It uses 2D lists to represent the board, functions for displaying the board, getting player input, checking for a win, checking for a tie, and managing the game loop. It correctly handles user input validation and switches between players.  All aspects of the Tic-Tac-Toe game as described in the chapter are implemented correctly.
+- readability: The code is well-structured and mostly easy to read. The functions are logically separated and well-named. However, some minor improvements in the input validation process could enhance readability. The comments could be improved. For example, it could explicitly mention that the program takes input as 0-based indexing (Row and Column numbers start at 0).
+- performance: The code's performance is acceptable for a simple game like Tic-Tac-Toe.  However, the redundant display of the board when a player wins could be optimized for minimal performance improvement.  For larger boards or more complex games, optimization strategies would be necessary. The current implementation does not use inefficient algorithms.
+- security: The code includes input validation to prevent common errors such as non-numeric input or out-of-bounds indices. This addresses a major aspect of security by preventing the program from crashing or behaving erratically due to malformed input. There are no obvious security vulnerabilities.
+
