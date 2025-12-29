@@ -1,0 +1,11 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week2/Day1/ExercisesXP/ExercisesXP.py
+suggestions for improvement:
+- In Exercise 6, the `make_great` function prints the modified names but doesn't actually change the original `magician_names` list.  It should modify the list in place or return a new modified list.
+- Add docstrings to your functions to improve readability and explain their purpose and parameters.
+- Consider adding more robust input validation in exercises where user input is expected (like Exercise 7's bonus section, where user input should be validated to be in the expected range of 1-12).
+Brief justification:
+- correctness: The code correctly implements all seven exercises as described in the chapter content. Each function fulfills its stated purpose and produces the expected output based on the examples and requirements.  The code directly addresses each exercise's goal and uses the specified Python concepts (functions, parameters, loops, conditionals, modules, etc.).
+- readability: The code is generally well-structured and easy to follow.  Variable names are descriptive. However, adding docstrings would enhance readability, and the modification of the list in Exercise 6 could be clearer.
+- performance: The code's performance is efficient for the tasks involved.  The use of built-in functions and straightforward logic results in optimal performance for the given scale of the problems. There are no unnecessary computations or loops.
+- security: The code does not introduce any security vulnerabilities as it doesn't handle external input or perform any operations that could be exploited.
+

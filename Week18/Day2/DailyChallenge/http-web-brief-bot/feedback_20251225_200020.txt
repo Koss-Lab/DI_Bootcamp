@@ -1,0 +1,28 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day2/DailyChallenge/http-web-brief-bot/.env
+suggestions for improvement:
+- This is just a configuration file, not actual code implementing the required server, client, and API endpoints. The provided configuration contains variables that would be used within the server and client.
+- The server should implement the API endpoints as described, including handling requests, calling the search API and LLM, and returning results in the specified JSON format.
+- The CLI client should automate the steps outlined in the problem description.
+- The README should describe the project and how to run it.
+- Postman collection or cURL examples for each endpoint should be provided.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day2/DailyChallenge/http-web-brief-bot/client.py
+suggestions for improvement:
+- Consider adding more robust error handling for network requests, including retry logic for transient failures.
+- Implement more comprehensive input validation on the client side to catch potential issues before sending requests to the server.
+- The pick_three_distinct_domains function could be made more resilient by handling cases where the URL format is unexpected.
+Correctness: 95%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day2/DailyChallenge/http-web-brief-bot/requirements.txt
+suggestions for improvement:
+- The provided code is a list of Python packages and their versions, which does not address any of the requirements outlined in the problem description. The problem asks for an HTTP server with specific endpoints, a CLI client, and associated documentation, none of which are present in the submission.
+Correctness: 0.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week18/Day2/DailyChallenge/http-web-brief-bot/server.py
+suggestions for improvement:
+- Consider adding more comprehensive error logging, especially within the `tavily_search` and `llm_summarize` functions, to facilitate debugging and monitoring.
+- Implement a more robust input validation for the 'filename' in the `save_markdown` function to prevent potential path traversal vulnerabilities.  Consider using `pathlib.Path.resolve()` and checking if the resolved path is within the allowed `OUTPUT_DIR`.
+- The application uses a fallback mechanism for LLM summarization. Consider implementing some form of alerting or monitoring when the fallback is triggered to ensure problems with the LLM are noticed and addressed.
+Correctness: 90%
+-----
