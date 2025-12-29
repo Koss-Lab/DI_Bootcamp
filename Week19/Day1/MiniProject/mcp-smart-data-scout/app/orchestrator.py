@@ -1,10 +1,17 @@
 # app/orchestrator.py
+from __future__ import annotations
+
 import json
-from app.llm_client import call_llm
+from typing import Any
+
 from app.config import settings
+from app.llm_client import call_llm
+from app.mcp_registry import ToolRegistry, ToolRegistryError
 
 
 SYSTEM = """You are an agent orchestrator.
+Choose the next MCP tool to call.
+
 Return STRICT JSON only:
 {
   "tool": string | null,
@@ -16,15 +23,17 @@ Return STRICT JSON only:
 
 
 class Orchestrator:
-    def __init__(self, registry):
+    def __init__(self, registry: ToolRegistry) -> None:
         self.registry = registry
 
-    async def run_async(self, user_goal: str):
+    async def run_async(self, user_goal: str) -> dict[str, Any]:
+        tools_block = self.registry.tools_prompt_block()
+
         history = [
             {"role": "system", "content": SYSTEM},
             {
                 "role": "user",
-                "content": f"Goal: {user_goal}\n\nAvailable tools:\n{self.registry.tools_prompt_block()}",
+                "content": f"Goal: {user_goal}\nAvailable tools:\n{tools_block}",
             },
         ]
 
@@ -36,11 +45,19 @@ class Orchestrator:
             try:
                 plan = json.loads(llm_out)
             except Exception:
-                # 🔥 FIX DÉFINITIF : FORCER JSON
+                if step == settings.max_steps - 1:
+                    return {
+                        "final": True,
+                        "steps": steps,
+                        "answer": llm_out,
+                    }
+
                 history.append({
                     "role": "user",
                     "content": f"""
-Rewrite STRICT JSON ONLY.
+Your last answer was invalid JSON.
+
+Rewrite as STRICT JSON ONLY.
 
 Example:
 {{
@@ -56,29 +73,35 @@ Now answer for:
                 })
                 continue
 
-            tool = plan.get("tool")
-            args = plan.get("arguments", {})
-            done = plan.get("done", False)
-
-            if done or not tool:
+            if plan.get("done") or not plan.get("tool"):
                 return {
                     "final": True,
                     "steps": steps,
                     "answer": plan.get("rationale", "Done"),
                 }
 
-            result = await self.registry.call_tool(tool, args)
-            steps.append({"tool": tool, "args": args, "result": result})
+            try:
+                result = await self.registry.call_tool(
+                    plan["tool"], plan.get("arguments", {})
+                )
+                steps.append({
+                    "tool": plan["tool"],
+                    "args": plan.get("arguments", {}),
+                    "result": result,
+                })
 
-            history.append({"role": "assistant", "content": llm_out})
-            history.append({
-                "role": "user",
-                "content": f"Tool result: {result}. Decide next step.",
-            })
+                history.append({"role": "assistant", "content": llm_out})
+                history.append({
+                    "role": "user",
+                    "content": f"Tool result:\n{result}\nDecide next step.",
+                })
 
-        # 🔥 FALLBACK ULTIME
-        return {
-            "final": True,
-            "steps": steps,
-            "answer": "Completed with fallback",
-        }
+            except ToolRegistryError as e:
+                steps.append({"tool": plan["tool"], "error": str(e)})
+                history.append({"role": "assistant", "content": llm_out})
+                history.append({
+                    "role": "user",
+                    "content": f"Tool failed: {e}. Choose another tool.",
+                })
+
+        return {"final": False, "steps": steps, "answer": "Max steps reached"}
