@@ -1,0 +1,48 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- The configuration file itself doesn't implement any of the requested functionality. It sets up settings, but doesn't create custom tools, compose servers, or have agentic client functionality.
+- The configuration file could be improved by adding validation to the arguments or commands to ensure they are valid executables.
+- Consider adding more comments to explain the purpose of each configuration setting, especially the raw argument strings.
+- The `extra='ignore'` setting in `SettingsConfigDict` might mask unintended configuration errors. Consider using `extra='forbid'` during development to catch such errors early.
+Correctness: 10.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/init.py
+suggestions for improvement:
+- Checker failed to provide a response.
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/llm_client.py
+suggestions for improvement:
+- The provided code only implements an LLM client, which is a small part of the overall project requirements. It needs to be extended to build the MCP server, custom tools, and agentic client as outlined in the prompt.
+- The code lacks the implementation of custom tools and the agentic client, failing to address the core requirements of the mini-project.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- The provided code, while a good starting point for a Streamlit UI for an MCP application, doesn't actually implement the core requirements of the mini-project, namely creating a custom MCP server with at least 1-2 custom tools. It connects to a custom server named 'insights', but the implementation of this server is not provided within this code snippet.
+- The code also lacks the crucial part of letting the LLM choose the next action based on intermediate results (planning & robustness), and it does not provide options for GroqCloud or Ollama configuration via environment variables.
+- The code connects to existing servers but does not showcase custom tool creation or LLM-driven planning as specified in the requirements.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- The code focuses on connecting to and managing external MCP servers from Part 1, which is a supporting task. It does *not* implement the core requirement of creating *your own* MCP server with custom tools. This is the primary focus of Part 2.
+- The code lacks the implementation of custom tools and their exposure through a personal MCP server. It only deals with the client side of MCP, discovering and calling external tools, but not creating and hosting its own tools.
+- The prompt mentions combining the user's server (the one the user has to create) with existing servers. The provided code only connects to existing servers. There's no sign of a user-created server or custom tools.
+- To address the core requirement, the code needs to be extended to include a server component that serves custom tools defined by the user. This would involve implementing an MCP server using a library like `mcp` and defining the tools with their respective schemas and functionalities.
+- Consider separating concerns further by extracting the server connection logic into a separate helper function or class. This will improve the code's modularity and testability.
+Correctness: 30%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The provided code implements the orchestration logic using an LLM to plan and execute tool calls, which aligns with the general idea of the project.
+- However, the code does not include the crucial part of the project: the custom MCP server with at least one custom tool. It also doesn't provide example implementations for the ToolRegistry, settings, and llm_client which would be critical in realizing the project requirements.
+- The code provides the overall structure but is not executable as-is without the server and custom tools, which are central to the problem description.
+Correctness: 50%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- Consider using a dedicated sentiment analysis library (e.g., VADER) for more accurate sentiment detection in `analyze_text` rather than relying on simple keyword matching. This would improve the robustness and accuracy of the tool.
+- For production use, explore asynchronous task execution, especially within the `analyze_text` function if more sophisticated analysis is employed, to prevent blocking the server.
+Correctness: 100%
+-----

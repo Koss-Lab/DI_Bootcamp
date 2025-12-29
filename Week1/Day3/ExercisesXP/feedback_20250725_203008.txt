@@ -1,0 +1,11 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week1/Day3/ExercisesXP/ExercisesXP.py
+suggestions for improvement:
+- In Exercise 3, the `major_color` values for France and Spain should be lists to maintain consistency with the US value.  Currently, it's a mix of strings and lists.
+- In Exercise 3, consider using more descriptive variable names (e.g., instead of `brand`, perhaps `zara_brand_info`).
+- Add comments to Exercise 2 explaining the logic of the age-based ticket pricing.
+Brief justification:
+- correctness: The code correctly implements all four exercises as specified in the chapter content.  Each exercise directly addresses the described tasks, using the specified data structures (dictionaries, lists) and techniques (loops, conditionals, dictionary methods). The solutions accurately produce the expected outputs. There are no irrelevant computations or functionalities.
+- readability: The code is generally well-structured and easy to follow. Variable names are mostly clear, and the logic within each exercise is understandable. However, minor improvements like more descriptive variable names and handling the inconsistency in `major_color` would enhance readability.
+- performance: The code's performance is excellent for the given tasks. The algorithms used are efficient for the small datasets, and there are no obvious performance bottlenecks.
+- security: The code does not involve any security concerns since it only manipulates local data structures and doesn't interact with external systems or user inputs (except for the bonus in Exercise 2, but the prompt doesn't evaluate this bonus part).
+

@@ -1,0 +1,16 @@
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week4/Day1/MiniProject/Anagram_Checker/anagram_checker.py
+suggestions for improvement:
+- The `anagrams.py` file is missing, preventing a complete assessment of the solution.  The provided `anagram_checker.py` is a good start but needs the UI component for a full evaluation.
+- Error handling for file I/O (e.g., the wordlist file not found) is missing in `AnagramChecker.__init__`.
+- The performance could be improved by using a more efficient data structure for anagram detection, especially for larger word lists. Consider using a dictionary where keys are sorted words and values are lists of their anagrams.
+- Add more comprehensive input validation in `anagrams.py` (the missing UI part) to handle edge cases and provide more informative error messages to the user.
+Correctness: 90%
+-----
+URL: URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week4/Day1/MiniProject/Anagram_Checker/anagrams.py
+suggestions for improvement:
+- The `anagram_checker.py` file is missing.  The solution assumes its existence and functionality, but without seeing that code, a complete correctness assessment is impossible.
+- Error handling could be improved.  Instead of just printing 'Invalid option', it could provide more specific guidance to the user.
+- The program's performance could be improved by optimizing the anagram search algorithm. Currently, it likely iterates through the entire word list for each anagram check, leading to inefficiency for large word lists.
+- Add more robust input validation to handle edge cases such as empty input or input containing only whitespace.
+Correctness: 95%
+-----

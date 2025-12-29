@@ -1,0 +1,47 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- This configuration file only partially addresses the prompt. It defines settings for LLMs (Groq and Ollama) but doesn't implement any part of the MCP server, custom tools, composition of servers, agentic client, or planning logic, as required by the prompt. The prompt asks to build a custom MCP server, expose tools, and orchestrate calls across servers, none of which is present here.
+- Consider adding documentation to explain each configuration setting and its purpose.
+- You should define a mechanism to validate the LLM backend setting to prevent unexpected behavior when an invalid value is provided.
+- You can add more comprehensive error handling and logging to improve the resilience and debuggability of your application.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/init.py
+suggestions for improvement:
+- Checker failed to provide a response.
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/llm_client.py
+suggestions for improvement:
+- The provided code only implements the LLM client part, which is just a small piece of the requirements outlined in the prompt. It lacks the core functionality of creating an MCP server with custom tools, composing it with external servers, and creating an agentic client that uses the LLM to plan multi-step calls across all tools.
+- Improve error handling for API requests to make the application more robust.
+- Consider using a more secure way to store and access API keys instead of directly referencing them in the code.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- The provided code showcases a Streamlit UI for an agentic MCP application, demonstrating the integration of multiple MCP servers (including third-party and custom ones) and LLM-driven orchestration. However, there's no implementation of custom tools and MCP server. The code is only a UI application that connect to custom/third-party MCP servers.
+- The Orchestrator class is used, but its internal functionality, which is crucial for satisfying the problem description, is missing.
+- Missing the implementation of custom MCP server with at least 1-2 custom tools.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- The `tools_prompt_block` should be programmatically generated from the available tools in the registry, rather than being hardcoded. This makes the registry more dynamic and easier to maintain.
+- The tool implementations are very basic. They should implement non-trivial operations as requested by the project requirements. The project asks for real value (transformation, enrichment, automation, or integration with a service/API you care about).
+- Consider using a proper logging mechanism instead of `print` statements.
+Correctness: 60%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The provided code focuses on the agentic client/orchestration aspect but doesn't demonstrate the creation of a custom MCP server with custom tools. This is a major missing piece.
+- The error handling by forcing JSON output is a good attempt at robustness, but a more sophisticated approach might involve schema validation and more informative error messages.
+- Consider adding logging and monitoring for better debugging and observability, especially in a distributed environment.
+Correctness: 50%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- Consider adding more sophisticated sentiment analysis using libraries like NLTK or transformers for improved accuracy.
+- Add input validation to the clean_text tool to prevent potential issues with unexpected input types.
+Correctness: 100%
+-----
