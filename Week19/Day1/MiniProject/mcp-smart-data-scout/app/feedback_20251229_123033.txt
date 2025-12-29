@@ -1,0 +1,71 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/__init__.py
+suggestions for improvement:
+- The provided code defines the structure of an MCP agent, but it doesn't fulfill the core requirements of the mini-project, which involve integrating at least two third-party MCP servers, running them locally, and using an LLM for planning and orchestration. The `create_agent` function outlines the initialization process but lacks the actual implementation of these key components.
+- The code needs to be extended to include the logic for discovering tools from the third-party servers, prompting the LLM for orchestration, and handling errors.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- This config file doesn't implement any of the core requirements from the chapter, it is simply a configuration file.
+- The config includes some settings relevant to the project but does not show how these settings are used in a working agentic application.
+- Consider adding a method to validate the configurations on startup.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/init.py
+suggestions for improvement:
+- The provided code outlines the structure for initializing an MCP agent but doesn't actually implement the core requirements of the mini-project, such as integrating third-party MCP servers, orchestrating tool calls with an LLM, and handling errors.  It's a good start for setting up the agent's architecture, but it's missing the essential elements specified in the prompt.
+- The `ToolRegistry` class needs to be implemented to handle MCP server management, discovering and registering tools, including third-party ones.  The `Orchestrator` class needs to implement the LLM-driven planning and execution logic.
+- Consider adding logging and error handling mechanisms within the ToolRegistry and Orchestrator classes to improve observability and resilience.
+Correctness: 0.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/llm_client.py
+suggestions for improvement:
+- The code only addresses the LLM planning and tool calling aspects of the mini-project. It doesn't incorporate the core requirement of integrating at least two third-party MCP servers. This is the biggest omission.
+- The code handles LLM calls using GroqCloud or Ollama as specified in the requirements, which is good.
+- The error handling is basic (fallback for JSON parsing errors) but should be expanded to cover timeouts or bad inputs from tool calls, as specified in the 'Functional requirements'.
+- The code uses environment variables for configuration, which is good for reproducibility and config as specified in the requirements, but there is no evident logging.
+- The planning prompt could be improved to be more robust.
+Correctness: 30%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/logging_utils.py
+suggestions for improvement:
+- This code snippet only provides a logging function. It needs to be part of a larger application that implements the MCP client orchestration, including integration with third-party servers, LLM planning, error handling, and configuration as outlined in the chapter content.
+- Consider adding more robust sanitization or validation of the `result` data before converting it to a string to prevent potential injection or formatting issues in the logs.
+- The logging function could be extended to write to a file or external logging service for more persistent and manageable logs.
+Correctness: 0.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- Consider adding more comprehensive error handling, particularly around server connections and LLM interactions.
+- Implement more detailed logging for each tool call to enhance observability, as suggested in the requirements.
+- Make the configuration of LLM backend (Groq or Ollama) more flexible, perhaps using a selectbox in Streamlit to allow users to choose at runtime.
+- Add more detailed descriptions of what each of the MCP servers are doing.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- The provided code defines a `ToolRegistry` class that mocks the functionality of MCP servers. This directly contradicts the core requirement of the mini-project, which is to *integrate* at least two *third-party* MCP servers. The code explicitly disables the real MCP mode and only provides mock implementations.
+- The code needs to be modified to actually connect to and interact with external MCP servers as specified in the prompt. The mock mode should be disabled or used only for testing purposes, not as the primary functionality.
+Correctness: 0.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The Orchestrator class should use an LLM to decide which tool to call based on the user input. Currently, it uses hardcoded if/else statements which violate the requirement for LLM-driven planning.
+- Implement error handling for timeouts and bad inputs with retries or fallback steps. There's no error handling currently.
+- Add logging for each tool call, summarizing inputs/outputs (excluding secrets).
+- The code only interacts with tools registered within the ToolRegistry. To adhere to the prompt, it should dynamically discover tools exposed by the third-party MCP servers.
+- The Orchestrator needs to integrate with at least two third-party MCP servers, which is not currently implemented. It only uses locally defined tools. Modify the `ToolRegistry` class to fetch tool metadata from other servers.
+Correctness: 20%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/__init__.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- This code defines a single, simple analysis tool. To align with the project requirements, it needs to be integrated as an MCP server, and interact with at least two other third-party MCP servers.
+- The project requires the use of an LLM to plan and orchestrate tool calls. The current code does not incorporate any LLM functionality.
+- Consider implementing error handling, observability (logging), and configuration management (environment variables) as suggested in the project requirements.
+Correctness: 0%
+-----
