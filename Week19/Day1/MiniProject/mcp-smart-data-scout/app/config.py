@@ -1,102 +1,86 @@
-"""
-Application configuration (validated & MCP-safe)
+# app/config.py
 
-- LLM backend (Groq / Ollama)
-- MCP stdio servers (time, fetch)
-- Agent limits
+"""
+Application configuration (safe + env-proof).
+
+- Env values are ALWAYS strings
+- Lists are parsed manually
+- No JSON parsing from .env
+- No timezone crash
 """
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field, field_validator
 
 
 class Settings(BaseSettings):
-    # ======================================================
-    # LLM BACKEND
-    # ======================================================
+    # ==============================
+    # LLM CONFIGURATION
+    # ==============================
 
-    llm_backend: str = Field(
-        default="groq",
-        description="LLM backend: groq or ollama",
-    )
+    llm_backend: str = "groq"
 
-    # ---- Groq ----
-    groq_api_key: str | None = Field(default=None)
+    groq_api_key: str | None = None
     groq_base_url: str = "https://api.groq.com/openai/v1"
     groq_model: str = "llama-3.1-70b-versatile"
 
-    # ---- Ollama ----
     ollama_base_url: str = "http://localhost:11434/v1"
     ollama_model: str = "llama3"
 
-    # ======================================================
-    # MCP SERVERS (STDIO)
-    # ======================================================
+    # ==============================
+    # MCP SERVERS (RAW ENV STRINGS)
+    # ==============================
 
-    # ---- TIME (third-party) ----
     mcp_time_command: str = "python"
-    mcp_time_args: str = "-m,mcp_server_time,--local-timezone,UTC"
+    mcp_time_args_raw: str = "-m mcp_server_time --local-timezone UTC"
 
-    # ---- FETCH (third-party) ----
     mcp_fetch_command: str = "python"
-    mcp_fetch_args: str = "-m,mcp_server_fetch"
+    mcp_fetch_args_raw: str = "-m mcp_server_fetch"
 
-    # ======================================================
-    # AGENT LIMITS
-    # ======================================================
+    # ==============================
+    # AGENT SAFETY
+    # ==============================
 
-    max_steps: int = 8
+    max_steps: int = 5
     max_retries: int = 2
 
-    # ======================================================
-    # SETTINGS META
-    # ======================================================
+    # ==============================
+    # SETTINGS BEHAVIOR
+    # ==============================
 
     model_config = SettingsConfigDict(
         env_file=".env",
         case_sensitive=False,
-        extra="ignore",   # 🔴 IMPORTANT: prevents crash on extra env vars
+        extra="ignore",   # ← ignore garbage safely
     )
 
-    # ======================================================
-    # VALIDATORS
-    # ======================================================
+    # ==============================
+    # PARSED HELPERS (SAFE)
+    # ==============================
 
-    @field_validator("llm_backend")
-    @classmethod
-    def validate_backend(cls, v: str) -> str:
-        v = v.lower()
-        if v not in {"groq", "ollama"}:
-            raise ValueError("llm_backend must be 'groq' or 'ollama'")
-        return v
+    @property
+    def mcp_time_args(self) -> list[str]:
+        return self.mcp_time_args_raw.split()
 
-    @field_validator("groq_api_key")
-    @classmethod
-    def validate_groq_key(cls, v, info):
-        if info.data.get("llm_backend") == "groq" and not v:
-            raise ValueError("GROQ_API_KEY must be set when using Groq")
-        return v
-
-    # ======================================================
-    # HELPERS
-    # ======================================================
+    @property
+    def mcp_fetch_args(self) -> list[str]:
+        return self.mcp_fetch_args_raw.split()
 
     @property
     def active_llm_base_url(self) -> str:
-        return self.groq_base_url if self.llm_backend == "groq" else self.ollama_base_url
+        return (
+            self.groq_base_url
+            if self.llm_backend.lower() == "groq"
+            else self.ollama_base_url
+        )
 
     @property
     def active_llm_model(self) -> str:
-        return self.groq_model if self.llm_backend == "groq" else self.ollama_model
-
-    @property
-    def mcp_time_args_list(self) -> list[str]:
-        return [a.strip() for a in self.mcp_time_args.split(",")]
-
-    @property
-    def mcp_fetch_args_list(self) -> list[str]:
-        return [a.strip() for a in self.mcp_fetch_args.split(",")]
+        return (
+            self.groq_model
+            if self.llm_backend.lower() == "groq"
+            else self.ollama_model
+        )
 
 
-# Singleton
 settings = Settings()

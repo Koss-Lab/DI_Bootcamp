@@ -1,50 +1,59 @@
 # app/orchestrator.py
 
-import asyncio
-import json
-from app.llm_client import call_llm
+from app.config import settings
+from app.mcp_registry import ToolRegistry
 
 
 class Orchestrator:
     """
-    Async-safe LLM-driven orchestrator.
+    Minimal, reliable agent orchestrator.
+    Guaranteed to RETURN output (never None).
     """
 
-    def __init__(self, registry):
+    def __init__(self, registry: ToolRegistry):
         self.registry = registry
 
-    async def run_async(self, user_input: str) -> str:
-        # 1. Ask LLM (RUN IN THREAD)
-        plan = await asyncio.to_thread(
-            call_llm,
-            [
-                {
-                    "role": "system",
-                    "content": (
-                        "You are an agent that selects the best MCP tool.\n"
-                        "Reply ONLY in JSON:\n"
-                        "{ \"tool\": \"tool.name\", \"args\": { ... } }\n"
-                        "Available tools:\n"
-                        f"{', '.join(self.registry.list_tools())}"
-                    ),
-                },
-                {"role": "user", "content": user_input},
-            ],
-        )
+    async def run_async(self, user_input: str):
+        """
+        Main agent entry point.
+        ALWAYS returns a value.
+        """
 
-        # 2. Parse JSON
-        try:
-            decision = json.loads(plan)
-            tool_name = decision["tool"]
-            args = decision.get("args", {})
-        except Exception:
-            return f"LLM planning error:\n{plan}"
+        user_input = user_input.strip()
 
-        # 3. Execute MCP tool
-        try:
-            result = await self.registry.call_tool(tool_name, args)
-        except Exception as e:
-            return f"Tool execution error: {e}"
+        # ----------------------------
+        # TIME QUERY
+        # ----------------------------
+        if "time" in user_input.lower():
+            result = await self.registry.call_tool(
+                "time.now",
+                {}
+            )
+            return {
+                "tool": "time.now",
+                "result": result,
+            }
 
-        # 4. RETURN RESULT
-        return str(result)
+        # ----------------------------
+        # ANALYSIS QUERY
+        # ----------------------------
+        if user_input.lower().startswith("analyze"):
+            text = user_input.split(":", 1)[-1].strip()
+
+            result = await self.registry.call_tool(
+                "insights.analyze",
+                {"text": text}
+            )
+            return {
+                "tool": "insights.analyze",
+                "input": text,
+                "result": result,
+            }
+
+        # ----------------------------
+        # FALLBACK
+        # ----------------------------
+        return {
+            "message": "No tool selected",
+            "input": user_input,
+        }
