@@ -1,0 +1,11 @@
+URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week1/Day1/ExercisesXP/Exercises_XP.py
+suggestions for improvement:
+- In Exercise 2, the `^` operator is not the exponentiation operator in Python. Use `**` instead.
+- Exercise 3: The code should print the actual outputs of the comparisons, rather than just commenting them.  It also needs to handle the TypeError that will occur when comparing a string and an integer.
+- Exercise 3: Add error handling for the type error in comparing strings and numbers.
+Brief justification:
+- correctness: The code correctly implements most exercises, covering print statements, variables, mathematical operations, comparison operators, if statements, and user input, all topics in the chapter content.  However, Exercise 2 has a critical error in using the incorrect exponentiation operator, and Exercise 3 is incomplete because it only comments on the comparison results instead of actually performing and printing them. The type error in Exercise 3 was also not handled, which affects correctness.
+- readability: The code is well-structured and easy to understand. Variable names are descriptive, and the logic is generally clear.  The use of f-strings for formatted output improves readability.
+- performance: The code's performance is excellent for the tasks involved. The algorithms used are efficient, and there are no noticeable performance bottlenecks.
+- security: There are no security concerns in this code.  It doesn't handle external input in a way that could lead to vulnerabilities.
+

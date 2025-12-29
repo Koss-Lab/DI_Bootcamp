@@ -1,0 +1,13 @@
+URL: URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week2/Day3/ExercisesXP/ExercisesXP.py
+suggestions for improvement:
+- In `find_oldest_cat`, consider using a list comprehension or other more concise methods for comparing ages.  The current approach is perfectly functional but could be made more compact and Pythonic.
+- The `Zoo` class's `sort_animals` method creates an intermediate dictionary `grouped_animals` and then another dictionary `sorted_grouped_animals`.  This is slightly inefficient. A more concise method would be to directly build and sort the `grouped_animals` dictionary.  The current approach is perfectly functional but could be optimized for memory and speed, especially with a very large number of animals.
+- Add docstrings to all functions and methods to enhance readability and understanding.
+Correctness: 100%
+-----
+URL: URL: https://github.com/arielkoss/DI_Bootcamp/blob/main/Week2/Day3/ExercisesXP/ExercisesXPNinja.py
+suggestions for improvement:
+- The provided code implements a `Phone` class with functionalities for making calls, sending messages, and displaying message/call history.  However, this is entirely unrelated to the chapter content which focuses on classes, objects, methods, and attributes within the context of animal-related exercises (Cats, Dogs, Zoo). The code does not use any of the concepts or data structures from the exercises, making it irrelevant to the chapter's learning objectives.
+- Consider refactoring the code to address one of the exercises outlined in the chapter (Cats, Dogs, Zoo) to demonstrate understanding of the key Python topics presented.
+Correctness: 0%
+-----
