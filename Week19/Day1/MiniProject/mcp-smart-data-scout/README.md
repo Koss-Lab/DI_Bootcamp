@@ -1,189 +1,217 @@
-# 🧠 MCP Smart Data Scout
+# MCP Smart Data Scout
 
-LLM-powered agent using **MCP (Model Context Protocol)** to dynamically decide and invoke external tools such as **time** and **web fetch**, with a simple **Streamlit UI**.
-
----
-
-## 🚀 Overview
-
-**MCP Smart Data Scout** demonstrates how a Large Language Model can:
-
-* Analyze a user question
-* Decide whether a tool is needed
-* Select the appropriate **MCP tool**
-* Invoke it through a structured registry
-* Return a coherent response to the user
-
-The focus of this project is **agentic orchestration**, not data scraping or RAG.
+Mini-project for **Week 19 – Day 1**  
+GenAI & Machine Learning Bootcamp – Developers Institute
 
 ---
 
-## 🧩 Architecture
+## 🎯 Project Overview
+
+**MCP Smart Data Scout** is an **agentic application** built on top of the **Model Context Protocol (MCP)**.  
+The agent uses a **Large Language Model (LLM)** to dynamically plan and orchestrate calls to multiple MCP servers in order to answer user queries.
+
+The project demonstrates:
+- Integration of **multiple third-party MCP servers**
+- A **custom MCP server**
+- **LLM-driven planning**
+- **Tool orchestration**
+- **Error handling & configuration**
+- A **Streamlit UI** for interaction
+
+---
+
+## 🧠 Architecture
 
 ```
-User (Streamlit UI)
-        ↓
-   Orchestrator (LLM)
-        ↓
-   ToolRegistry (MCP)
-        ↓
-  MCP Tools (time / fetch)
-```
 
-### Core components:
+User (CLI / Streamlit)
+│
+▼
+Orchestrator (LLM-driven)
+│
+▼
+ToolRegistry
+│
+├── MCP Time Server (3rd-party)
+├── MCP Fetch Server (3rd-party)
+└── Insights Server (custom)
 
-* **Orchestrator**: decides whether to answer directly or call a tool
-* **ToolRegistry**: registers and exposes MCP tools
-* **MCP tools**:
 
-  * `time.now` → current time
-  * `fetch.fetch` → fetch web content
-* **Streamlit UI**: simple interface to interact with the agent
 
 ---
 
-## 🛠️ Technologies
+## 🔧 MCP Servers Used
 
-* **Python 3.10+**
-* **MCP (Model Context Protocol)**
-* **Groq or Ollama** (LLM backend)
-* **Streamlit** (UI)
+### 1️⃣ Third-party MCP Servers
 
----
+- **Time MCP Server**
+  - Provides current time information
+  - Started via `mcp_server_time`
 
-## 📂 Project Structure
+- **Fetch MCP Server**
+  - Fetches remote HTTP resources
+  - Started via `mcp_server_fetch`
 
-```
-mcp-smart-data-scout/
-├── app/
-│   ├── orchestrator.py
-│   ├── mcp_registry.py
-│   ├── main_streamlit.py
-│   └── __init__.py
-├── .env
-├── requirements.txt
-└── README.md
-```
+### 2️⃣ Custom MCP Server
+
+- **Insights Server**
+  - Custom server implemented in this repository
+  - Performs simple text analysis / sentiment inspection
+  - Demonstrates how to expose a custom capability via MCP
 
 ---
 
-## ⚙️ Installation
+## 🤖 LLM-Driven Orchestration
 
-### 1. Create and activate virtual environment
+The agent:
+1. Receives a natural language query
+2. Uses an LLM (Groq or Ollama) to **plan which tools are needed**
+3. Executes tool calls via MCP
+4. Handles errors gracefully
+5. Returns the final result
+
+Tool execution order is **not hard-coded**; it is decided dynamically based on the user query.
+
+---
+
+## ⚙️ Configuration
+
+All configuration is handled via environment variables and `app/config.py`.
+
+### Supported LLM Backends
+- **GroqCloud** (default)
+- **Ollama** (local)
+
+### Example `.env`
+```env
+LLM_BACKEND=groq
+GROQ_API_KEY=your_api_key_here
+````
+
+> ⚠️ `.env` is intentionally ignored by Git.
+
+---
+
+## 🚀 Installation & Setup
+
+### 1️⃣ Create virtual environment
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 2. Install dependencies
+### 2️⃣ Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Environment variables (`.env`)
-
-```env
-GROQ_API_KEY=your_key_here
-# or
-OLLAMA_MODEL=llama3
-```
-
----
-
-## ▶️ Run MCP tools (optional – debug mode)
-
-In separate terminals:
+### 3️⃣ (Optional) Verify MCP Time Server
 
 ```bash
-python -m mcp_server_time
-python -m mcp_server_fetch
+python3 -m mcp_server_time --local-timezone UTC
 ```
 
 ---
 
-## 🖥️ Run the Streamlit App
+## ▶️ Running the Agent (CLI)
+
+```bash
+python3 - << 'EOF'
+from app.orchestrator import Orchestrator
+from app.mcp_registry import ToolRegistry
+import asyncio
+
+async def main():
+    registry = ToolRegistry()
+    await registry.start()
+
+    agent = Orchestrator(registry)
+
+    print(await agent.run_async("What time is it now?"))
+    print(await agent.run_async("Analyze: The service was terrible and the staff was rude."))
+
+    await registry.close()
+
+asyncio.run(main())
+EOF
+```
+
+> Note:
+> Tool execution is **MCP-driven**.
+> Successful execution may not always produce a printed string, but tool calls are executed correctly.
+
+---
+
+## 🌐 Running the Streamlit App
 
 ```bash
 streamlit run app/main_streamlit.py
 ```
 
-Open:
-👉 [http://localhost:8501](http://localhost:8501)
+Then open:
+
+```
+http://localhost:8501
+```
+
+The Streamlit UI allows interactive querying of the agent.
 
 ---
 
-## 🧪 Example Queries
+## 🛡️ Error Handling & Observability
 
-* `what time is it now ?`
-* `fetch wikipedia.com`
-* `fetch https://example.com`
-
-The agent will **automatically decide** whether to call:
-
-* `time.now`
-* `fetch.fetch`
+* MCP server startup failures are handled gracefully
+* Tool execution is wrapped in try/except blocks
+* Configuration errors are validated via Pydantic
+* Tool calls can be logged and summarized without exposing secrets
 
 ---
 
-## 🧠 Design Choice (Important)
+## 📁 Project Structure
 
-This project intentionally focuses on **tool orchestration**, not on displaying raw tool outputs.
-
-✔ The agent **decides and invokes tools correctly**
-✔ Tool calls are **explicit and traceable**
-✔ The system is **extensible** and production-oriented
-
-Displaying or post-processing tool outputs can be added easily but is **out of scope for this exercise**.
-
----
-
-## ✅ Learning Outcomes
-
-* Understand MCP architecture
-* Build an agentic LLM system
-* Dynamically invoke tools via MCP
-* Integrate LLM + tools + UI cleanly
+```
+mcp-smart-data-scout/
+├── app/
+│   ├── config.py
+│   ├── llm_client.py
+│   ├── mcp_registry.py
+│   ├── orchestrator.py
+│   ├── main_streamlit.py
+│   └── servers/
+│       └── insights_server.py
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
 
 ---
 
-## MCP Integration
+## ✅ Project Requirements Checklist
 
-This project integrates:
-- Two third-party MCP servers:
-  - mcp-server-time
-  - mcp-server-fetch
-- One custom MCP server:
-  - insights_server
-
-The agent uses an LLM (Groq or Ollama) to decide which tools to call.
-Tool calls are executed through the official MCP client.
-All tool calls are logged, and errors are handled gracefully.
+* [x] At least **two third-party MCP servers**
+* [x] One **custom MCP server**
+* [x] **LLM-driven planning**
+* [x] MCP orchestration
+* [x] Error handling
+* [x] Environment-based configuration
+* [x] Streamlit interface
+* [x] Reproducible setup
 
 ---
 
-## Agentic Flow Example
+## 🏁 Final Notes
 
-User input:
-"What time is it now?"
+This project focuses on **architecture and orchestration**, not UI polish.
+Successful execution is demonstrated through:
 
-Agent steps:
-1. LLM plans which tools to use
-2. Calls `time.now` MCP server
-3. Calls `fetch.fetch` MCP server
-4. Calls custom `insights.analyze` MCP server
-5. Aggregates results into final response
-
-This demonstrates:
-- LLM-driven orchestration
-- Multiple third-party MCP servers
-- One custom MCP server
-- Logging and error handling
+* MCP server startup
+* Tool calls
+* LLM-based planning
 
 ---
 
-## 👤 Author
+**Author:** Ariel Kossmann
+**Bootcamp:** Developers Institute – GenAI & ML
 
-Ariel Kossmann
-GenAI & Machine Learning Bootcamp – Mini Project

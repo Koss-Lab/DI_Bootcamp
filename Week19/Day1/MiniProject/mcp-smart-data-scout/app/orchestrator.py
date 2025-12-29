@@ -1,46 +1,50 @@
 # app/orchestrator.py
+
 import asyncio
+import json
 from app.llm_client import call_llm
-from app.logging_utils import log_tool_call
+
 
 class Orchestrator:
+    """
+    Async-safe LLM-driven orchestrator.
+    """
+
     def __init__(self, registry):
         self.registry = registry
 
-    async def run(self, question: str) -> str:
-        # Ask LLM what to do
-        decision = call_llm([
-            {"role": "system", "content": "Choose one tool: time, fetch, insights"},
-            {"role": "user", "content": question},
-        ])
+    async def run_async(self, user_input: str) -> str:
+        # 1. Ask LLM (RUN IN THREAD)
+        plan = await asyncio.to_thread(
+            call_llm,
+            [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are an agent that selects the best MCP tool.\n"
+                        "Reply ONLY in JSON:\n"
+                        "{ \"tool\": \"tool.name\", \"args\": { ... } }\n"
+                        "Available tools:\n"
+                        f"{', '.join(self.registry.list_tools())}"
+                    ),
+                },
+                {"role": "user", "content": user_input},
+            ],
+        )
 
-        result_parts = []
-
+        # 2. Parse JSON
         try:
-            if "time" in decision.lower():
-                res = await self.registry.call("time", "now", None)
-                log_tool_call("time.now", None, res)
-                result_parts.append(str(res))
+            decision = json.loads(plan)
+            tool_name = decision["tool"]
+            args = decision.get("args", {})
+        except Exception:
+            return f"LLM planning error:\n{plan}"
 
-            if "fetch" in decision.lower():
-                res = await self.registry.call(
-                    "fetch",
-                    "fetch",
-                    {"url": "https://example.com"}
-                )
-                log_tool_call("fetch.fetch", {"url": "https://example.com"}, res)
-                result_parts.append("Fetched example.com")
-
-            # Always run insights (custom server)
-            res = await self.registry.call(
-                "insights",
-                "analyze",
-                {"text": question}
-            )
-            log_tool_call("insights.analyze", {"text": question}, res)
-            result_parts.append(str(res))
-
+        # 3. Execute MCP tool
+        try:
+            result = await self.registry.call_tool(tool_name, args)
         except Exception as e:
-            result_parts.append(f"Error: {e}")
+            return f"Tool execution error: {e}"
 
-        return "\n".join(result_parts)
+        # 4. RETURN RESULT
+        return str(result)
