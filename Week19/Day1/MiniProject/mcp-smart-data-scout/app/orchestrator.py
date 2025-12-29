@@ -1,64 +1,84 @@
 # app/orchestrator.py
-
+import json
+from app.llm_client import call_llm
 from app.config import settings
-from app.mcp_registry import ToolRegistry
+
+
+SYSTEM = """You are an agent orchestrator.
+Return STRICT JSON only:
+{
+  "tool": string | null,
+  "arguments": object,
+  "done": boolean,
+  "rationale": string
+}
+"""
 
 
 class Orchestrator:
-    """
-    LLM-driven planner that selects and executes MCP tools.
-    """
-
-    def __init__(self, registry: ToolRegistry):
+    def __init__(self, registry):
         self.registry = registry
 
-    def _llm_plan(self, user_input: str) -> dict:
-        """
-        Simulated LLM planning step.
-        In a real system, this would call Groq or Ollama.
-        """
+    async def run_async(self, user_goal: str):
+        history = [
+            {"role": "system", "content": SYSTEM},
+            {
+                "role": "user",
+                "content": f"Goal: {user_goal}\n\nAvailable tools:\n{self.registry.tools_prompt_block()}",
+            },
+        ]
 
-        print("[LLM] Planning next tool call...")
+        steps = []
 
-        text = user_input.lower()
-
-        if "time" in text:
-            return {"tool": "time.now", "args": {}}
-
-        if "analyze" in text:
-            return {
-                "tool": "insights.analyze",
-                "args": {"text": user_input.replace("Analyze:", "").strip()},
-            }
-
-        return {
-            "tool": "fetch.fetch",
-            "args": {"url": "https://example.com"},
-        }
-
-    async def run_async(self, user_input: str):
-        context = []
-        steps = 0
-
-        while steps < settings.max_steps:
-            plan = self._llm_plan(user_input)
-
-            tool = plan["tool"]
-            args = plan["args"]
+        for step in range(settings.max_steps):
+            llm_out = call_llm(history)
 
             try:
-                result = await self.registry.call_tool(tool, args)
-                context.append({"tool": tool, "result": result})
+                plan = json.loads(llm_out)
+            except Exception:
+                # 🔥 FIX DÉFINITIF : FORCER JSON
+                history.append({
+                    "role": "user",
+                    "content": f"""
+Rewrite STRICT JSON ONLY.
+
+Example:
+{{
+  "tool": "time.now",
+  "arguments": {{}},
+  "done": false,
+  "rationale": "Need time"
+}}
+
+Now answer for:
+{user_goal}
+"""
+                })
+                continue
+
+            tool = plan.get("tool")
+            args = plan.get("arguments", {})
+            done = plan.get("done", False)
+
+            if done or not tool:
                 return {
-                    "tool": tool,
-                    "result": result,
+                    "final": True,
+                    "steps": steps,
+                    "answer": plan.get("rationale", "Done"),
                 }
 
-            except Exception as e:
-                print(f"[ERROR] Tool failed: {e}")
-                steps += 1
+            result = await self.registry.call_tool(tool, args)
+            steps.append({"tool": tool, "args": args, "result": result})
 
-                if steps >= settings.max_retries:
-                    return {"error": str(e)}
+            history.append({"role": "assistant", "content": llm_out})
+            history.append({
+                "role": "user",
+                "content": f"Tool result: {result}. Decide next step.",
+            })
 
-        return {"error": "Max steps exceeded"}
+        # 🔥 FALLBACK ULTIME
+        return {
+            "final": True,
+            "steps": steps,
+            "answer": "Completed with fallback",
+        }

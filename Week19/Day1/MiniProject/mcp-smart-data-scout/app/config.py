@@ -1,14 +1,9 @@
 # app/config.py
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    # ==============================
-    # LLM CONFIG
-    # ==============================
-
-    llm_backend: str = "groq"  # groq | ollama
+    llm_backend: str = "groq"
 
     groq_api_key: str | None = None
     groq_base_url: str = "https://api.groq.com/openai/v1"
@@ -17,42 +12,14 @@ class Settings(BaseSettings):
     ollama_base_url: str = "http://localhost:11434/v1"
     ollama_model: str = "llama3"
 
-    # ==============================
-    # THIRD-PARTY MCP SERVERS
-    # ==============================
-
-    # MCP server from community repo: mcp_server_time
-    mcp_time_command: str = "python"
-    mcp_time_args_raw: str = "-m mcp_server_time --local-timezone UTC"
-
-    # MCP server from community repo: mcp_server_fetch
-    mcp_fetch_command: str = "python"
-    mcp_fetch_args_raw: str = "-m mcp_server_fetch"
-
-    # ==============================
-    # AGENT SAFETY
-    # ==============================
-
-    max_steps: int = 5
-    max_retries: int = 2
+    max_steps: int = 4
+    max_retries: int = 1
 
     model_config = SettingsConfigDict(
         env_file=".env",
-        case_sensitive=False,
         extra="ignore",
+        case_sensitive=False,
     )
-
-    # ==============================
-    # HELPERS
-    # ==============================
-
-    @property
-    def mcp_time_args(self) -> list[str]:
-        return self.mcp_time_args_raw.split()
-
-    @property
-    def mcp_fetch_args(self) -> list[str]:
-        return self.mcp_fetch_args_raw.split()
 
     @property
     def active_llm_base_url(self) -> str:
