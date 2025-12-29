@@ -6,54 +6,59 @@ from app.mcp_registry import ToolRegistry
 
 class Orchestrator:
     """
-    Minimal, reliable agent orchestrator.
-    Guaranteed to RETURN output (never None).
+    LLM-driven planner that selects and executes MCP tools.
     """
 
     def __init__(self, registry: ToolRegistry):
         self.registry = registry
 
-    async def run_async(self, user_input: str):
+    def _llm_plan(self, user_input: str) -> dict:
         """
-        Main agent entry point.
-        ALWAYS returns a value.
+        Simulated LLM planning step.
+        In a real system, this would call Groq or Ollama.
         """
 
-        user_input = user_input.strip()
+        print("[LLM] Planning next tool call...")
 
-        # ----------------------------
-        # TIME QUERY
-        # ----------------------------
-        if "time" in user_input.lower():
-            result = await self.registry.call_tool(
-                "time.now",
-                {}
-            )
-            return {
-                "tool": "time.now",
-                "result": result,
-            }
+        text = user_input.lower()
 
-        # ----------------------------
-        # ANALYSIS QUERY
-        # ----------------------------
-        if user_input.lower().startswith("analyze"):
-            text = user_input.split(":", 1)[-1].strip()
+        if "time" in text:
+            return {"tool": "time.now", "args": {}}
 
-            result = await self.registry.call_tool(
-                "insights.analyze",
-                {"text": text}
-            )
+        if "analyze" in text:
             return {
                 "tool": "insights.analyze",
-                "input": text,
-                "result": result,
+                "args": {"text": user_input.replace("Analyze:", "").strip()},
             }
 
-        # ----------------------------
-        # FALLBACK
-        # ----------------------------
         return {
-            "message": "No tool selected",
-            "input": user_input,
+            "tool": "fetch.fetch",
+            "args": {"url": "https://example.com"},
         }
+
+    async def run_async(self, user_input: str):
+        context = []
+        steps = 0
+
+        while steps < settings.max_steps:
+            plan = self._llm_plan(user_input)
+
+            tool = plan["tool"]
+            args = plan["args"]
+
+            try:
+                result = await self.registry.call_tool(tool, args)
+                context.append({"tool": tool, "result": result})
+                return {
+                    "tool": tool,
+                    "result": result,
+                }
+
+            except Exception as e:
+                print(f"[ERROR] Tool failed: {e}")
+                steps += 1
+
+                if steps >= settings.max_retries:
+                    return {"error": str(e)}
+
+        return {"error": "Max steps exceeded"}

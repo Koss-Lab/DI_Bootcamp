@@ -1,17 +1,11 @@
-from typing import Dict
+# app/servers/insights_server.py
 
-
-def analyze(text: str) -> Dict[str, str]:
+def analyze(text: str) -> dict:
     """
-    Custom MCP-style analysis tool.
-
-    Performs a simple sentiment classification to demonstrate
-    how a custom server integrates into the agent flow.
+    Simple sentiment analysis tool.
     """
-
     sentiment = "negative" if "terrible" in text.lower() else "neutral"
-
     return {
         "sentiment": sentiment,
-        "summary": text[:120],
+        "length": len(text),
     }
