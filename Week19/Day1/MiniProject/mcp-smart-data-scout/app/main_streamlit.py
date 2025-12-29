@@ -1,95 +1,84 @@
 # app/main_streamlit.py
 # Streamlit UI for MCP Smart Data Scout
-# All code & comments in English (as requested)
+# This file demonstrates end-to-end MCP integration:
+# - 2 third-party MCP servers (time, fetch)
+# - 1 custom MCP server (insights)
+# - LLM-driven orchestration
+# - Error handling and observability
 
-import sys
-import os
-
-# -------------------------------------------------
-# Fix import path so "app.*" works with Streamlit
-# -------------------------------------------------
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if ROOT_DIR not in sys.path:
-    sys.path.insert(0, ROOT_DIR)
-
+import asyncio
 import streamlit as st
 
-from app.mcp_registry import ToolRegistry
+from app.mcp_registry import MCPRegistry
 from app.orchestrator import Orchestrator
 
-# -------------------------------------------------
-# Page config
-# -------------------------------------------------
-st.set_page_config(
-    page_title="MCP Smart Data Scout",
-    page_icon="🧠",
-    layout="centered",
+
+st.set_page_config(page_title="MCP Smart Data Scout", layout="centered")
+
+st.title("🔍 MCP Smart Data Scout")
+st.write(
+    """
+This demo shows an **agentic MCP application**:
+- Uses **Groq / Ollama LLM** for planning
+- Integrates **multiple MCP servers**
+- Executes real MCP tool calls
+"""
 )
 
-# -------------------------------------------------
-# Header
-# -------------------------------------------------
-st.title("🧠 MCP Smart Data Scout")
-st.caption("LLM + MCP tools (Groq / Ollama)")
-st.write("Ask a question. The agent may decide to call MCP tools.")
-
-# -------------------------------------------------
-# Initialize registry & agent (cached)
-# -------------------------------------------------
-@st.cache_resource
-def init_agent():
-    registry = ToolRegistry()
-    agent = Orchestrator(registry)
-    return agent
-
-agent = init_agent()
-
-# -------------------------------------------------
-# User input
-# -------------------------------------------------
 question = st.text_input(
-    "Your question",
-    placeholder="e.g. What time is it now? or Fetch https://example.com",
+    "Ask a question",
+    placeholder="e.g. What time is it now?"
 )
 
-run_clicked = st.button("Run")
 
-# -------------------------------------------------
-# Run agent
-# -------------------------------------------------
-if run_clicked and question.strip():
-    with st.spinner("Thinking..."):
-        result = agent.run(question)
+async def run_agent(user_question: str) -> str:
+    """
+    Initialize MCP servers, run the orchestrator,
+    and return the final answer.
+    """
+    registry = MCPRegistry()
 
-    st.subheader("Result")
+    # --- Connect to third-party MCP servers ---
+    await registry.connect(
+        name="time",
+        command=["python", "-m", "mcp_server_time"]
+    )
 
-    # ---------------------------------------------
-    # Case 1: Orchestrator returns structured dict
-    # ---------------------------------------------
-    if isinstance(result, dict):
-        tool_used = result.get("tool")
-        tool_output = result.get("tool_output")
-        final_answer = result.get("final_answer")
+    await registry.connect(
+        name="fetch",
+        command=["python", "-m", "mcp_server_fetch"]
+    )
 
-        if tool_used:
-            st.markdown(f"**🛠 Tool used:** `{tool_used}`")
+    # --- Connect to custom MCP server ---
+    await registry.connect(
+        name="insights",
+        command=["python", "app/servers/insights_server.py"]
+    )
 
-        if tool_output:
-            st.markdown("**📦 Tool output:**")
-            st.code(tool_output, language="json" if isinstance(tool_output, dict) else "text")
+    agent = Orchestrator(registry)
+    result = await agent.run(user_question)
+    return result
 
-        if final_answer:
-            st.markdown("**✅ Final answer:**")
-            st.write(final_answer)
 
-    # ---------------------------------------------
-    # Case 2: Plain text fallback
-    # ---------------------------------------------
+if st.button("Run agent"):
+    if not question.strip():
+        st.warning("Please enter a question.")
     else:
-        st.write(result)
+        with st.spinner("Running agent..."):
+            try:
+                output = asyncio.run(run_agent(question))
+                st.success("Agent completed successfully")
+                st.text_area(
+                    "Agent output",
+                    value=output,
+                    height=200
+                )
+            except Exception as e:
+                st.error("Agent execution failed")
+                st.exception(e)
 
-# -------------------------------------------------
-# Footer
-# -------------------------------------------------
-st.markdown("---")
-st.caption("Powered by MCP · Groq / Ollama · Streamlit")
+
+st.divider()
+st.caption(
+    "MCP Smart Data Scout — Mini Project (Developers Institute)"
+)

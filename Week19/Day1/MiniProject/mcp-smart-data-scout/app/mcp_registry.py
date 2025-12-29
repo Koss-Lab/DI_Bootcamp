@@ -1,46 +1,28 @@
 # app/mcp_registry.py
-"""
-MCP Tool Registry (stable, pedagogical version).
+from mcp.client.session import ClientSession
+from mcp.client.stdio import stdio_client
 
-MCP 1.25 limitation:
-- stdio_client is unstable / internal
-- no public stream adapters exist
-- therefore servers are launched externally (CLI)
+class MCPRegistry:
+    """
+    Connects to multiple MCP servers and exposes their tools.
+    """
 
-This registry documents and routes tools logically,
-which is sufficient for the mini-project evaluation.
-"""
-
-from typing import Dict, List
-
-
-class ToolRegistry:
     def __init__(self):
-        self.tools = {
-            "time.now": self._time_now,
-            "fetch.fetch": self._fetch,
-            "insights.analyze": self._insights,
-        }
+        self.sessions = {}
 
-    def call_tool(self, tool_name, args):
-        return self.tools[tool_name](args)
+    async def connect(self, name: str, command: list[str]):
+        """
+        Start and connect to an MCP server via stdio.
+        """
+        client = stdio_client(command)
+        read, write = await client.__aenter__()
+        session = ClientSession(read, write)
+        await session.initialize()
+        self.sessions[name] = session
 
-
-    def list_tools(self) -> List[dict]:
-        return [
-            {
-                "name": "fetch.fetch",
-                "description": "Fetch and parse web content",
-                "server": "fetch",
-            },
-            {
-                "name": "time.now",
-                "description": "Get current time",
-                "server": "time",
-            },
-        ]
-
-    def get_server_for_tool(self, tool_name: str) -> str:
-        if tool_name not in self._tool_index:
-            raise KeyError(f"Unknown tool: {tool_name}")
-        return self._tool_index[tool_name]
+    async def call(self, server: str, tool: str, args: dict | None):
+        """
+        Call a real MCP tool.
+        """
+        session = self.sessions[server]
+        return await session.call_tool(tool, args)

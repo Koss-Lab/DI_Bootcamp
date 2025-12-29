@@ -1,11 +1,18 @@
 # app/servers/insights_server.py
+from mcp.server import Server
+from mcp.types import Tool, TextContent
 
-def analyze(text: str) -> str:
+server = Server("insights")
+
+@server.tool()
+def analyze(text: str) -> TextContent:
     """
-    Simple custom MCP server.
-    Provides basic insight from user text.
+    Analyze text and return simple insights.
     """
     if not text:
-        return "No text provided."
+        return TextContent(text="No text provided")
 
-    return f"Text length: {len(text)} characters"
+    return TextContent(text=f"Text length: {len(text)} characters")
+
+if __name__ == "__main__":
+    server.run()

@@ -148,6 +148,21 @@ Displaying or post-processing tool outputs can be added easily but is **out of s
 
 ---
 
+## MCP Integration
+
+This project integrates:
+- Two third-party MCP servers:
+  - mcp-server-time
+  - mcp-server-fetch
+- One custom MCP server:
+  - insights_server
+
+The agent uses an LLM (Groq or Ollama) to decide which tools to call.
+Tool calls are executed through the official MCP client.
+All tool calls are logged, and errors are handled gracefully.
+
+---
+
 ## Agentic Flow Example
 
 User input:
