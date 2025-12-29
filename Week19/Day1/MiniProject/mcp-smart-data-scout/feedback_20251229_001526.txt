@@ -1,0 +1,68 @@
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/__init__.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/config.py
+suggestions for improvement:
+- Consider adding more specific validation for MCP server arguments to prevent potential command injection vulnerabilities.
+- The use of singleton style access is fine for now, but consider dependency injection for larger applications.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/llm_client.py
+suggestions for improvement:
+- The code provides a good foundation for interacting with LLMs (GroqCloud or Ollama) but doesn't actually implement the core requirements of the mini-project: integrating and orchestrating multiple third-party MCP servers. It only focuses on the LLM interaction part.
+- The code lacks the functionality to discover tools from multiple MCP servers, plan tool calls based on user goals, handle errors related to tool calls (timeouts, bad inputs), and log tool call details.
+- Consider adding input validation to the `_payload` function to ensure the `messages` list contains dictionaries with the correct structure (e.g., 'role' and 'content' keys).
+- While the retry mechanism is good, consider adding jitter to the exponential backoff to prevent multiple retries from happening simultaneously.
+Correctness: 40%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/logging_utils.py
+suggestions for improvement:
+- This code provides logging utilities, which is tangentially related to the observability requirement in the mini-project description. However, it doesn't directly address the core tasks of integrating third-party MCP servers, orchestrating tool calls with an LLM, or building an end-to-end agentic application.
+- The logging utility itself is well-written and addresses the specific concern of summarizing potentially sensitive data, as described in the requirements.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/main_streamlit.py
+suggestions for improvement:
+- Consider adding error handling within the registry.connect calls to gracefully handle server connection failures.
+- Implement more detailed logging (e.g., using a logging library) to capture the inputs and outputs of each tool call for improved observability.  The current implementation just shows 'Agent completed successfully' or 'Agent execution failed'.
+- Implement input validation and sanitization in the Streamlit UI to prevent potential security vulnerabilities, such as prompt injection.
+Correctness: 100%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/mcp_registry.py
+suggestions for improvement:
+- Add error handling for connection failures and tool call errors (as specified in 'Error handling').
+- Implement logging for each tool call, summarizing inputs/outputs (as specified in 'Observability').
+- Implement a discovery mechanism to list available tools across connected servers, aiding LLM planning.
+- Include the logic for the LLM to plan and orchestrate tool calls to achieve a user goal.
+- Incorporate a Streamlit interface for user interaction and display of results.
+Correctness: 60%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/orchestrator.py
+suggestions for improvement:
+- The Orchestrator class does not fully implement the requirements for integrating third-party MCP servers. It attempts to integrate 'time' and 'fetch' (presumably third-party) and 'insights' (custom), but the planning is rudimentary and not fully LLM-driven as requested.
+- The planning logic (choosing the order of tool calls) is very basic ('if' statements) and not the LLM-driven orchestration described in the problem. It's partially hard-coded, especially the 'insights' call which is always executed.
+- The error handling is present with a try-except block, but it could be improved with retries or fallback strategies as suggested in the prompt.
+- The code assumes the existence of a 'registry' object and functions like call_llm and log_tool_call without defining them within this snippet. This makes it difficult to assess the complete functionality.
+Correctness: 50.0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/__init__.py
+suggestions for improvement:
+- Skipping file (too many comments or blank lines).
+Correctness: N/A%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/app/servers/insights_server.py
+suggestions for improvement:
+- The provided code only implements a single, simple MCP server. It does not fulfill the core requirement of integrating at least two third-party MCP servers.
+- The code lacks the planning and orchestration logic using an LLM to call tools from different MCP servers.
+- The code does not include error handling, observability, or environment-based configuration as specified in the functional requirements.
+- The integration with Streamlit is missing.
+Correctness: 0%
+-----
+URL: https://github.com/Koss-Lab/DI_Bootcamp/blob/main/Week19/Day1/MiniProject/mcp-smart-data-scout/requirements.txt
+suggestions for improvement:
+- This submission only lists dependencies. It does not implement any of the required functionality, such as integrating third-party MCP servers, using an LLM for planning, or implementing error handling or observability. The submission needs to include the client code that orchestrates the calls to the MCP servers, and potentially the server code to host 'your' MCP server.
+- The submission lacks any code implementing the actual agentic application. It is crucial to include this implementation to fulfill the project requirements.
+Correctness: 0.0%
+-----
