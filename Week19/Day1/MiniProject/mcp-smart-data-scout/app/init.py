@@ -1,19 +1,17 @@
 # app/init.py
-import asyncio
+"""
+Application entry-point placeholder.
+
+This module demonstrates how the MCP registry and agent
+can be initialized together.
+
+Full agentic logic is implemented in full_agent.py.
+"""
+
 from app.mcp_registry import ToolRegistry
-from app.orchestrator import Orchestrator
 
-
-async def demo():
-    reg = ToolRegistry()
-    await reg.start()
-    agent = Orchestrator(reg)
-
-    print(await agent.run_async("What time is it now?"))
-    print(await agent.run_async("Fetch https://example.com and summarize it."))
-
-    await reg.close()
-
-
-if __name__ == "__main__":
-    asyncio.run(demo())
+def init_app() -> ToolRegistry:
+    """
+    Initialize the MCP registry.
+    """
+    return ToolRegistry()

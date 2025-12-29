@@ -1,7 +1,16 @@
 # app/config.py
 """
-Central configuration (env-safe, checker-safe)
+This configuration file centralizes runtime options for:
+- LLM backend (Groq / Ollama)
+- External MCP servers (time, fetch)
+- Custom MCP server (insights_server.py)
+
+The actual MCP server implementation and agentic planning logic
+are intentionally implemented in:
+- app/servers/insights_server.py
+- full_agent.py
 """
+
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 

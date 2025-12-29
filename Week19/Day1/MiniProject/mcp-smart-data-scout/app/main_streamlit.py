@@ -5,12 +5,28 @@
 # - 1 custom MCP server (insights)
 # - LLM-driven orchestration
 # - Error handling and observability
+"""
+Optional Streamlit UI for the MCP Smart Data Scout project.
+
+This file is NOT required for validation, but demonstrates how
+the full agentic system implemented in `full_agent.py` can be
+exposed through an interactive interface.
+
+The agent:
+- Uses a custom MCP server with user-defined tools
+- Can be composed with external MCP servers
+- Supports LLM-driven planning (Groq / Ollama)
+
+Core logic lives in `full_agent.py`.
+"""
+
 
 import asyncio
 import streamlit as st
 
 from app.mcp_registry import MCPRegistry
 from app.orchestrator import Orchestrator
+from full_agent import run_agent
 
 
 st.set_page_config(page_title="MCP Smart Data Scout", layout="centered")

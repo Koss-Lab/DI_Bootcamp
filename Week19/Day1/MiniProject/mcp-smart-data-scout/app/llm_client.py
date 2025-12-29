@@ -1,4 +1,11 @@
 # app/llm_client.py
+"""
+LLM client utility.
+
+This module is used by the agentic orchestrator implemented
+in full_agent.py to support LLM-driven planning (Groq or Ollama).
+"""
+
 from __future__ import annotations
 
 import time
