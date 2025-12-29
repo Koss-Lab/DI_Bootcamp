@@ -9,10 +9,13 @@ from app.llm_client import call_llm
 from app.mcp_registry import ToolRegistry, ToolRegistryError
 
 
-SYSTEM = """You are an agent orchestrator.
-Choose the next MCP tool to call.
+SYSTEM = """
+You are an agentic orchestrator.
 
-Return STRICT JSON only:
+Your role is to plan and execute tool calls across multiple MCP servers
+in order to achieve the user's goal.
+
+Return STRICT JSON ONLY with:
 {
   "tool": string | null,
   "arguments": object,
@@ -33,11 +36,11 @@ class Orchestrator:
             {"role": "system", "content": SYSTEM},
             {
                 "role": "user",
-                "content": f"Goal: {user_goal}\nAvailable tools:\n{tools_block}",
+                "content": f"Goal:\n{user_goal}\n\nAvailable tools:\n{tools_block}",
             },
         ]
 
-        steps = []
+        steps: list[dict[str, Any]] = []
 
         for step in range(settings.max_steps):
             llm_out = call_llm(history)
@@ -54,22 +57,14 @@ class Orchestrator:
 
                 history.append({
                     "role": "user",
-                    "content": f"""
-Your last answer was invalid JSON.
-
-Rewrite as STRICT JSON ONLY.
-
-Example:
-{{
-  "tool": "time.now",
-  "arguments": {{}},
-  "done": false,
-  "rationale": "Need time"
-}}
-
-Now answer for:
-{user_goal}
-"""
+                    "content": (
+                        "Your last answer was invalid JSON.\n\n"
+                        "Rewrite it as STRICT JSON ONLY.\n\n"
+                        "Example:\n"
+                        '{ "tool": "clean_text", "arguments": {"text": "..."}, '
+                        '"done": false, "rationale": "Clean input" }\n\n'
+                        f"User goal:\n{user_goal}"
+                    ),
                 })
                 continue
 
@@ -77,23 +72,24 @@ Now answer for:
                 return {
                     "final": True,
                     "steps": steps,
-                    "answer": plan.get("rationale", "Done"),
+                    "answer": plan.get("rationale", "Task completed"),
                 }
 
             try:
                 result = await self.registry.call_tool(
                     plan["tool"], plan.get("arguments", {})
                 )
+
                 steps.append({
                     "tool": plan["tool"],
-                    "args": plan.get("arguments", {}),
+                    "arguments": plan.get("arguments", {}),
                     "result": result,
                 })
 
                 history.append({"role": "assistant", "content": llm_out})
                 history.append({
                     "role": "user",
-                    "content": f"Tool result:\n{result}\nDecide next step.",
+                    "content": f"Tool result:\n{result}\n\nDecide next step.",
                 })
 
             except ToolRegistryError as e:
@@ -101,7 +97,11 @@ Now answer for:
                 history.append({"role": "assistant", "content": llm_out})
                 history.append({
                     "role": "user",
-                    "content": f"Tool failed: {e}. Choose another tool.",
+                    "content": f"Tool failed: {e}. Try another approach.",
                 })
 
-        return {"final": False, "steps": steps, "answer": "Max steps reached"}
+        return {
+            "final": False,
+            "steps": steps,
+            "answer": "Max planning steps reached",
+        }
